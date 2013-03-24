@@ -1,0 +1,1 @@
+http://dictyexpress.biolab.si/script/experiment_wide.py?user1=&gene=DDB_G0284861&pass1=&org=dd

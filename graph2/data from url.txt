@@ -1,0 +1,1 @@
+http://dictyexpress.biolab.si/script/expression.py?pass1=&id0=15&genes=DDB%5FG0273069%2CDDB%5FG0289025%2CDDB%5FG0285597%2CDDB%5FG0279387%2CDDB%5FG0284861&id1=53&user1=&id2=11
