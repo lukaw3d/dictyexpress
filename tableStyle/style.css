@@ -1,0 +1,58 @@
+body{
+	padding: 30px;
+}
+
+table {
+	font-family:arial;
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+	margin:10px 0pt 15px;
+	font-size: 10pt;
+	text-align: left;
+}
+table td, table th{
+	border: 2px solid #ccc;
+	border-collapse: collapse;
+}
+table thead tr th, table tfoot tr th {
+	background-color: #dee;
+	font-size: 10pt;
+	text-transform: capitalize;
+	padding: 4px;
+}
+
+table tbody td {
+	color: #333;
+	padding: 6px;
+	vertical-align: top;
+	min-width: 80px;
+}
+table.tablesorter thead th {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table thead th[sort="up"] {
+	background-image: url(asc.gif);
+	background-repeat: no-repeat;
+}
+table thead th[sort="down"] {
+	background-image: url(desc.gif);
+	background-repeat: no-repeat;
+}
+table tbody tr[selected="true"] td{
+	background-color: #9ce;
+}
+table tbody tr:hover td{
+	background-color: #dee;
+	cursor: pointer;
+}
+#geneSelector table{
+	position: relative;
+	font-size:8pt;
+	display:none;
+}
+#geneSelector:hover table{
+	display:inline;
+}

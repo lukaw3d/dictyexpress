@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html ng-app>
+	<head>
+		<meta charset="utf-8">
+		<script src="./libs/jquery-1.9.1.min.js"></script>
+		<script src="./libs/angular.min.js"></script>
+		<script src="DictyTable.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="tableStyle/style.css" />
+	</head>
+	<body>
+		
+		<table class="tablesorter" ng-controller="DictyTable">
+			<thead>
+				<tr>
+					<th ng-class="sortHeader" ng-repeat="(hdr, val) in experiment[0]" ng-click="setSortBy(hdr, $event);">
+						{{hdr}}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="expRow" ng-repeat="expRow in experiment | orderBy:getSortBy():getReverseSort()" ng-click="selectRow(expRow, $event)">
+					<td ng-repeat="(hdr, val) in expRow">{{val}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="geneSelector" ng-controller='GeneSelector'>
+			 <textArea id="geneTextInput" ng-model="geneInput"></textArea>
+			 <table>
+				<thead>
+					<tr>
+						<th ng-repeat='(keys,geneAttrs) in allGenes["rab32C"]'>{{keys}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="gene in allGenesFiltered(geneInput)" ng-click="selectGene(gene, $event)">
+						<td ng-repeat="geneAttrs in gene">{{geneAttrs}}</td>
+					</tr>
+				</tbody>
+			 </table>
+		</div>
+	</body>
+</html>
