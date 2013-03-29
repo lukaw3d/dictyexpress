@@ -2,14 +2,20 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Chart</title>
+		<title>Expression profile</title>
 
 		<script type="text/javascript" src="./inc/jquery-1.8.2.min.js"></script>
 		<script src="./inc/highcharts.js"></script>
 		<script src="./inc/exporting.js"></script>
 		<script type="text/javascript">
 $(function () {
-	profile = {
+
+currentExperiment = {
+	"species": "D. discoideum",
+	"strain": "AX4",
+	"growth": "KA"
+};
+profile = {
 	// displayed genes
 	"DDB_G0273069": [ 38517.390436, 10468.991257, 5120.999755, 4599.216053, 6008.108929, 9891.453052, 7006.916784 ],
 	"DDB_G0279387": [ 55552.413897, 14083.098324, 3052.53189, 2937.61897, 1731.729698, 1948.400179, 1931.351379 ],
@@ -106,7 +112,18 @@ allGenes = {
 		"jgi_id": 92493
 	}
 };
-
+		var dataForSeries=[];
+		for(ee in profile){
+			dataForSeries.push(
+			{
+				name: ee,
+				data: profile[ee]
+			}
+			);
+		}
+		
+		
+		
         $('#container').highcharts({
             chart: {
                 type: 'line',
@@ -118,7 +135,7 @@ allGenes = {
                 x: -20 //center
             },
             subtitle: {
-                text: 'D. discoideum / AX4 / KA',
+                text: currentExperiment.species+' / '+currentExperiment.strain+' / '+currentExperiment.growth,
                 x: -20
             },
             xAxis: {
@@ -141,11 +158,16 @@ allGenes = {
                     color: '#808080'
                 }]
             },
-            tooltip: {
+			tooltip: {
+				shared: true,
+                crosshairs: true,
                 formatter: function() {
-					return 'time: <b>'+ this.x +
-						'</b>'+'<br/>'+ 'normalized read count: <b>'+ this.y +'</b>';
-            }
+					var str = 'Time: <b>'+ this.x +'h';
+					$.each(this.points, function(i, point) {
+						str += '<br><span style="color:'+point.series.color+'; font-size:80%;">'+ point.series.name +': '+ point.y +'</span>';
+					});
+					return str;
+				}
             },
             legend: {
                 layout: 'vertical',
@@ -162,23 +184,7 @@ allGenes = {
 				}
 			},
 			// get data
-			
-			
-            series: [{
-            	//DDB_G0273069
-                name: 'ndkC-1',
-                data: profile["DDB_G0273069"]
-                //document.writeln(data)
-               	//data: [ 38517.390436, 10468.991257, 5120.999755, 4599.216053, 6008.108929, 9891.453052, 7006.916784 ]
-            }, {
-                name: 'eif5a',
-                data: profile["DDB_G0284861"]
-                //data: [ 32727.034273, 19346.784749, 6438.15899, 9452.846883, 8899.117963, 8974.251067, 7498.366213 ]
-            }, {
-                name: 'rps28',
-                data: profile["DDB_G0285597"]
-                //data: [ 43103.74384, 16338.426274, 3365.145447, 3168.372899, 1702.320396, 2161.586845, 2028.246308 ]
-            }]
+            series: dataForSeries
         });
     });
     
