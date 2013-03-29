@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Chart</title>
+
+		<script type="text/javascript" src="./inc/jquery-1.8.2.min.js"></script>
+		<script src="./inc/highcharts.js"></script>
+		<script src="./inc/exporting.js"></script>
+		<script type="text/javascript">
+$(function () {
+	// some data first
+	
+
+
+comparison = {
+
+		"D. discoideum": {
+			"data": [ 55552.413897, 14083.098324, 3052.53189, 2937.61897, 1731.729698, 1948.400179, 1931.351379 ],
+			"species": "D. discoideum",
+			"strain": "AX4",
+			"growth": "KA"
+		},
+		"D. purpureum": {
+			"data": [ 50981.130901, 12122.766544, 4382.060099, 1448.216945, 465.340046, 689.418326, 625.21427 ],
+			"species": "D. purpureum",
+			"strain": "dp1AX1",
+			"growth": "KA"
+		}
+};
+
+
+        $('#container').highcharts({
+        	//getIme = "D. discoideum";
+            chart: {
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Experiment Comparison for gene :',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'D. discoideum / D. purpureum',
+                x: -20
+            },
+            xAxis: {
+			    title: {
+					margin: -5,
+                    text: 'time [hrs]'
+                },
+				min: 0,
+				max: 24,
+				tickInterval: 2
+            },
+            yAxis: {
+                title: {
+                    text: 'Scaled Read Counts'
+                },
+				min:0,
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+					return 'time: <b>'+ this.x +
+						'</b>'+'<br/>'+ 'normalized read count: <b>'+ this.y +'</b>';
+            }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+			plotOptions: {
+				series: {
+					pointStart: 0,
+					pointInterval: 4 
+				}
+			},
+			// get data
+			
+			
+			
+			
+            series: [{
+            	//DDB_G0273069
+            	//name: comparison[0],
+            	//console.log(name),
+
+                name: 'D. discoideum',
+                data: comparison["D. discoideum"].data
+                //document.writeln(data)
+               	//data: [ 55552.413897, 14083.098324, 3052.53189, 2937.61897, 1731.729698, 1948.400179, 1931.351379 ]
+            }, {
+                name: 'D. purpureum',
+                data: comparison["D. purpureum"].data
+                //data: [ 50981.130901, 12122.766544, 4382.060099, 1448.216945, 465.340046, 689.418326, 625.21427 ]
+            }]
+        });
+    });
+    
+
+		</script>
+	</head>
+	<body>
+
+
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>
