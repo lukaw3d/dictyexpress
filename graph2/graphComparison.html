@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Chart</title>
+		<title>Experiment comparison</title>
 
 		<script type="text/javascript" src="./inc/jquery-1.8.2.min.js"></script>
 		<script src="./inc/highcharts.js"></script>
@@ -28,7 +28,21 @@ comparison = {
 			"growth": "KA"
 		}
 };
-
+		var dataForSeries=[];
+		var names = [];
+		for(ee in comparison){
+			names.push(ee);
+			dataForSeries.push(
+			{
+				name: ee,
+				data: comparison[ee].data
+			}
+			);
+		}
+		if(names.length > 5){ //limit too large subtitle
+			names = names.splice(0,5);
+			names.push("...");
+		}
 
         $('#container').highcharts({
         	//getIme = "D. discoideum";
@@ -42,7 +56,7 @@ comparison = {
                 x: -20 //center
             },
             subtitle: {
-                text: 'D. discoideum / D. purpureum',
+                text: names.join(" / "),
                 x: -20
             },
             xAxis: {
@@ -66,10 +80,15 @@ comparison = {
                 }]
             },
             tooltip: {
+				shared: true,
+                crosshairs: true,
                 formatter: function() {
-					return 'time: <b>'+ this.x +
-						'</b>'+'<br/>'+ 'normalized read count: <b>'+ this.y +'</b>';
-            }
+					var str = 'Time: <b>'+ this.x +'h';
+					$.each(this.points, function(i, point) {
+						str += '<br><span style="color:'+point.series.color+'">'+ point.series.name +': '+ point.y +'</span>';
+					});
+					return str;
+				}
             },
             legend: {
                 layout: 'vertical',
@@ -86,24 +105,7 @@ comparison = {
 				}
 			},
 			// get data
-			
-			
-			
-			
-            series: [{
-            	//DDB_G0273069
-            	//name: comparison[0],
-            	//console.log(name),
-
-                name: 'D. discoideum',
-                data: comparison["D. discoideum"].data
-                //document.writeln(data)
-               	//data: [ 55552.413897, 14083.098324, 3052.53189, 2937.61897, 1731.729698, 1948.400179, 1931.351379 ]
-            }, {
-                name: 'D. purpureum',
-                data: comparison["D. purpureum"].data
-                //data: [ 50981.130901, 12122.766544, 4382.060099, 1448.216945, 465.340046, 689.418326, 625.21427 ]
-            }]
+            series: dataForSeries
         });
     });
     
