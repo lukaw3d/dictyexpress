@@ -125,6 +125,7 @@ allGenes = {
 		
 		
         $('#container').highcharts({
+			credits: {enabled:false},			
             chart: {
                 type: 'line',
                 marginRight: 130,
@@ -156,7 +157,8 @@ allGenes = {
                     value: 0,
                     width: 1,
                     color: '#808080'
-                }]
+                }],
+				labels: {format: '{value}'}
             },
 			tooltip: {
 				shared: true,
