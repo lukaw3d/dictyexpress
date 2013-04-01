@@ -47,11 +47,7 @@ comparison = {
         $('#container').highcharts({
         	//getIme = "D. discoideum";
 			credits: {enabled:false},
-            chart: {
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25
-            },
+            chart: {type: 'line'},
             title: {
                 text: 'Experiment Comparison for gene :',
                 x: -20 //center
@@ -61,10 +57,7 @@ comparison = {
                 x: -20
             },
             xAxis: {
-			    title: {
-					margin: -5,
-                    text: 'time [hrs]'
-                },
+			    title: {text: 'time [hrs]'},
 				min: 0,
 				max: 24,
 				tickInterval: 2

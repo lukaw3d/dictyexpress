@@ -126,11 +126,7 @@ allGenes = {
 		
         $('#container').highcharts({
 			credits: {enabled:false},			
-            chart: {
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25
-            },
+            chart: {type: 'line'},
             title: {
                 text: 'Expression Profile:',
                 x: -20 //center
@@ -140,10 +136,7 @@ allGenes = {
                 x: -20
             },
             xAxis: {
-			    title: {
-					margin: -5,
-                    text: 'time [hrs]'
-                },
+			    title: {text: 'time [hrs]'},
 				min: 0,
 				max: 24,
 				tickInterval: 2
