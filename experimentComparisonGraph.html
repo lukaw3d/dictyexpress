@@ -46,6 +46,7 @@ comparison = {
 
         $('#container').highcharts({
         	//getIme = "D. discoideum";
+			credits: {enabled:false},
             chart: {
                 type: 'line',
                 marginRight: 130,
@@ -77,7 +78,8 @@ comparison = {
                     value: 0,
                     width: 1,
                     color: '#808080'
-                }]
+                }],
+				labels: {format: '{value}'}
             },
             tooltip: {
 				shared: true,
