@@ -6,8 +6,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'dictyFrontApp.views.index'),
-    url(r'^(.*)$', 'dictyFrontApp.views.others'),
+    url(r'^$', 'dicty.views.index'),
+    url(r'^(.*)$', 'dicty.views.others'),
     # url(r'^$', 'dictyExpress.views.home', name='home'),
     # url(r'^dictyExpress/', include('dictyExpress.urls2')),
 

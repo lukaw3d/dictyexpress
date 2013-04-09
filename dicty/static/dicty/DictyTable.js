@@ -128,8 +128,10 @@ function GeneSelector($scope) {
 	
 	$scope.selectGene = function(gene, event){
 		var str=$('#geneTextInput').val();
+		str = str.replace(new RegExp(gene.name+" ","g"), ""); //remove if same exists and add it to end
 		str = str.substring(0, str.lastIndexOf(" "));
-		$('#geneTextInput').val(str+" "+gene.name+" ");
+		
+		$('#geneTextInput').val($.trim(str + " " + gene.name) + " ");
 	}
 	
 	$scope.allGenesFiltered = function(geneinput){
