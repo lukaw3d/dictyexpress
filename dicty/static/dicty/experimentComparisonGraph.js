@@ -1,13 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Experiment comparison</title>
-
-		<script type="text/javascript" src="./libs/jquery-1.9.1.min.js"></script>
-		<script src="./libs/highcharts.js"></script>
-		<script src="./libs/exporting.js"></script>
-		<script type="text/javascript">
 $(function () {
 	// some data first
 	
@@ -103,14 +93,3 @@ comparison = {
             series: dataForSeries
         });
     });
-    
-
-		</script>
-	</head>
-	<body>
-
-
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
-	</body>
-</html>
