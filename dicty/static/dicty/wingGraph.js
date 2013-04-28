@@ -83,7 +83,7 @@ wingyData = {
 			credits: {enabled:false},			
             chart: {
 				type: 'scatter',
-				backgroundColor: 'transparent',
+				plotBackgroundImage: wingyData.imgUrl
 			},
             xAxis: {
 			    title: {text: 'log2'},
@@ -108,8 +108,5 @@ wingyData = {
             series: wingyData.points,
 			
         });
-		
-		$('#container').css("background-image","url("+wingyData.imgUrl+")");
-		$('#container').css("background-size","100% 100%");
 		
     });
