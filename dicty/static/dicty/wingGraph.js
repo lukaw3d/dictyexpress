@@ -85,6 +85,9 @@ wingyData = {
 				type: 'scatter',
 				plotBackgroundImage: wingyData.imgUrl
 			},
+			title: {
+                text: 'Differential Expression Analysis',
+			},
             xAxis: {
 			    title: {text: 'log2'},
 				min: wingyData.minx,
