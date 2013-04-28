@@ -67,6 +67,7 @@
 					var d=$scope.hierarchData.connects[i].dist;
 					if(d>$scope.maxDist) $scope.maxDist=d;
 				}
+				$scope.maxDist*=1.1;
 			}
 		</script>
 		<style>
@@ -93,12 +94,12 @@
 		</style>
 	</head>
 	<body>
-		<h2>Hierarchical clustering</h2>
+		<h2>Hierarchical clustering, still needs a lot of development</h2>
 		<div id="container" ng-controller="HierarchAngular">
 			<div ng-repeat="conn in hierarchData.connects">
 				<div class="shade">
 					<p><span style="width:{{conn.dist*100/maxDist}}%;"></span>{{conn.id1}}</p>
-					
+					{{conn.newid}}
 					<p><span style="width:{{conn.dist*100/maxDist}}%;"></span>{{conn.id2}}</p>
 				</div>
 			</div>
