@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html ng-app>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Hierarchical clustering</title>
+		<script src="jquery-1.9.1.min.js"></script>
+		<script src="angular.min.js"></script>
+		
+		<script>
+			function HierarchAngular($scope) {
+				$scope.hierarchData={
+					names: [
+						{
+							name:"DDB_G0279387",
+							id:0
+						},
+						{
+							name:"DDB_G0284093",
+							id:1
+						},
+						{
+							name:"DDB_G0291870",
+							id:4
+						},
+						{
+							name:"DDB_G0279189",
+							id:2
+						},
+						{
+							name:"DDB_G0290315",
+							id:3
+						}
+					],
+					connects: [
+						{
+							id1: 0,
+							id2: 1,
+							dist: 3869.029,
+							newid: 5
+						},
+						{
+							id1: 5,
+							id2: 4,
+							dist: 7417.258,
+							newid: 6
+						},
+						{
+							id1: 2,
+							id2: 3,
+							dist: 1810.664,
+							newid: 7
+						},
+						{
+							id1: 6,
+							id2: 7,
+							dist: 18051.857,
+							newid: 8
+						}
+					]
+				};
+				
+				//hierarchData.names[0].name/id
+				//hierarchData.connects[0].id1/id2/dist/newid
+				
+				$scope.maxDist=0;
+				for(var i=0;i<$scope.hierarchData.connects.length;i++){
+					var d=$scope.hierarchData.connects[i].dist;
+					if(d>$scope.maxDist) $scope.maxDist=d;
+				}
+			}
+		</script>
+		<style>
+			.shade{
+				background-color:#eee;
+				border-radius:20px;
+				display:inline-block;
+				padding: 10px;
+				width:100%;
+			}
+			.shade p{
+				text-align:right;
+				width:100%;
+			}
+			.shade span{
+				display:inline-block;
+				border-color:#0f0; 
+				border-bottom-style: solid;
+				border-bottom-width: 5px;
+			}
+			#container{
+				width:400px;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Hierarchical clustering</h2>
+		<div id="container" ng-controller="HierarchAngular">
+			<div ng-repeat="conn in hierarchData.connects">
+				<div class="shade">
+					<p><span style="width:{{conn.dist*100/maxDist}}%;"></span>{{conn.id1}}</p>
+					
+					<p><span style="width:{{conn.dist*100/maxDist}}%;"></span>{{conn.id2}}</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
