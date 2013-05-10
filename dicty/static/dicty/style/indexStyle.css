@@ -4,13 +4,13 @@ html {
 }
 body{
 	background-color: #fff;
-	width: 900px;
+	width: 95%;
 	margin: 0 auto;
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
 	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 }
 body>div {
-    padding: 0px 20px;
+    padding: 0px 2.4%;
 }
 
 h1, h2, h3 {
@@ -22,4 +22,8 @@ iframe{
 	height:520px;
 	border: 0;
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+}
+.half{
+	display:inline-block;
+	width: 45%;
 }

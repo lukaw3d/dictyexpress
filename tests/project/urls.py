@@ -4,8 +4,8 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
+urlpatterns = patterns(
+    '',
     url(r'^$', 'dicty.views.index'),
     url(r'^(.*)$', 'dicty.views.others'),
     # url(r'^$', 'dictyExpress.views.home', name='home'),
