@@ -12,16 +12,12 @@ DDB_G0285597    43103.74384    16338.426274    3365.145447    3168.372899
 DDB_G0289025    21680.492921    7436.382207    1663.542156    1859.91882
     1147.012705    1176.374009    1183.4271
 '''
-
+import json
 
 f = open('profile.txt', 'r')
-print "profile = {"
-first = 1
+profile = {}
 for line in f:
     splits = line[:-1].split("\t")
-    if(not first):
-        print "],"
-    print '\t"'+splits[0]+'": [', ", ".join(splits[1:]),
-    first = 0
-print "]\n}"
+    profile[splits[0]] = map(float, splits[1:])
+print json.dumps({"profile": profile}, indent=4)
 f.close()
