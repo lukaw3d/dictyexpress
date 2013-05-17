@@ -1,0 +1,4 @@
+# dont know where this data should be found..
+id0	Species	id1	Strain	id2	Growth	org
+D. discoideum	AX4	KA	D. discoideum	AX4	KA	dd	405894.347598	0.0
+D. purpureum	dp1AX1	KA	D. purpureum	dp1AX1	KA	dp	266939.16799	0.0
