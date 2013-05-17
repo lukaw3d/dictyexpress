@@ -1,9 +1,11 @@
 import os
+import sys
 # Django settings for dicty project.
 
 settingsPath = os.path.abspath(os.path.dirname(__file__))
 templatePath = os.path.join(settingsPath, 'templates')
 staticPath = os.path.join(settingsPath, 'static')
+sys.path.append(os.path.join(settingsPath, '../..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

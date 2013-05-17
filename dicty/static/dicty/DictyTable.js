@@ -14,6 +14,8 @@ function DictyTable($scope) {
 	$scope.sortBy = 'strain';
 	$scope.reverseSort = false;
 	
+	$scope.sortHeaders = ["species","strain","growth"];
+	
 	$scope.setSortBy = function(hdr, event){
 		$scope.sortBy=hdr;
 		$scope.reverseSort=!$scope.reverseSort;

@@ -15,14 +15,14 @@
 		<table class="tablesorter" ng-controller="DictyTable">
 			<thead>
 				<tr>
-					<th ng-class="sortHeader" ng-repeat="(hdr, val) in experiment[0]" ng-click="setSortBy(hdr, $event);">
+					<th ng-class="sortHeader" ng-repeat="hdr in sortHeaders" ng-click="setSortBy(hdr, $event);">
 						{{hdr}}
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="expRow" ng-repeat="expRow in experiment | orderBy:getSortBy():getReverseSort()" ng-click="selectRow(expRow, $event)">
-					<td ng-repeat="(hdr, val) in expRow">{{val}}</td>
+					<td ng-repeat="hdr in sortHeaders">{{expRow[hdr]}}</td>
 				</tr>
 			</tbody>
 		</table>
