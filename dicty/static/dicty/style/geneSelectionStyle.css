@@ -19,7 +19,7 @@ table td, table th{
 table thead tr th, table tfoot tr th {
 	background-color: #cee;
 	font-size: 10pt;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	padding: 4px;
 }
 
