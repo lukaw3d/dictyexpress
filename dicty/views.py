@@ -22,7 +22,7 @@ def api(request, sub):
     #request.GET.get()
     if sub == "experiment":
         #http://127.0.0.1:8000/api/experiment
-        return HttpResponse(json.dumps(wholeDict["experiment"], indent=4))
+        return HttpResponse(json.dumps(wholeDict["experiment"], indent=4), content_type="application/json")
     if sub == "profile":
         #http://127.0.0.1:8000/api/profile?
         #ddbs=DDB_G0273069%2CDDB_G0279387%2CDDB_G0284861&species=D.%20purpureum
@@ -31,12 +31,12 @@ def api(request, sub):
         subset = wholeDict.get("profile"+str(selectedSpecies))
         if subset:
             filtered = {sel: subset.get(sel) for sel in selectedDDBs}
-            return HttpResponse(json.dumps(filtered, indent=4))
+            return HttpResponse(json.dumps(filtered, indent=4), content_type="application/json")
         else:
-            return HttpResponse("Hi. Bad params")
+            return HttpResponse("Hi. Bad params", content_type="text/plain")
     if sub == "allGenes":
         #http://127.0.0.1:8000/api/allGenes
-        return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4))
+        return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4), content_type="application/json")
     if sub == "comparison":
         #http://127.0.0.1:8000/api/comparison?ddb=DDB_G0273069
         selectedDDB = str(request.GET.get("ddb"))
@@ -44,8 +44,8 @@ def api(request, sub):
             "info": exp,
             "data": wholeDict["profile"+exp["species"]].get(selectedDDB)
         } for exp in wholeDict["experiment"]}
-        return HttpResponse(json.dumps(filtered, indent=4))
-    return HttpResponse("Hi")
+        return HttpResponse(json.dumps(filtered, indent=4), content_type="application/json")
+    return HttpResponse("Hi", content_type="text/plain")
     #return HttpResponse(json.dumps(wholeDict, indent=4))
 
 
