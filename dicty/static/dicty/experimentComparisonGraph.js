@@ -1,21 +1,24 @@
 function ComparisonGraph($scope, $http) {
 	var selectedToCompare = "DDB_G0279387";
+	var comparison = null;
+
 	$http.get('api/comparison?ddb='+selectedToCompare).success(function(data) {
 		comparison = data;
 		refresh();
 	});
 	
 	function refresh(){
-		var dataForSeries=[];
+		var dataForSeries=[{name: " ",data: []}]
 		var names = [];
-		for(ee in comparison){
-			names.push(ee);
-			dataForSeries.push(
-			{
-				name: ee,
-				data: comparison[ee].data
+		if(comparison){
+			dataForSeries=[];
+			for(ee in comparison){
+				names.push(ee);
+				dataForSeries.push({
+					name: ee,
+					data: comparison[ee].data
+				});
 			}
-			);
 		}
 		if(names.length > 5){ //limit too large subtitle
 			names = names.splice(0,5);
@@ -81,4 +84,6 @@ function ComparisonGraph($scope, $http) {
 			series: dataForSeries
 		});
 	}
+	
+	refresh();
 }

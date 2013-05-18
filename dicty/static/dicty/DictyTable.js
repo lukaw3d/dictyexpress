@@ -1,5 +1,5 @@
 function DictyTable($scope, $http) {
-
+	$scope.experiment = [{}];
 	$http.get('api/experiment').success(function(data) {
 		$scope.experiment = data;
 		$scope.selectedSpecies=$scope.experiment[0].species;
@@ -28,12 +28,11 @@ function DictyTable($scope, $http) {
 		event.currentTarget.setAttribute("selected","true"); //need to make this better
 	}
 	
-	
-
 }
 
 
 function GeneSelector($scope, $http) {
+	$scope.allGenes = {"":""};
 	$http.get('api/allGenes').success(function(data) {
 		$scope.allGenes = data;
 	});
@@ -67,6 +66,3 @@ function GeneSelector($scope, $http) {
 	}
 	
 }
-
-
-
