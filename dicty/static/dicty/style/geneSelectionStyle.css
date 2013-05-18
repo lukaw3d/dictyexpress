@@ -1,7 +1,9 @@
 body{
 	padding: 30px;
 }
-
+textArea {
+	width: 280px;
+}
 table {
 	font-family:arial;
 	border: 1px solid #ccc;
@@ -15,7 +17,7 @@ table td, table th{
 	border-collapse: collapse;
 }
 table thead tr th, table tfoot tr th {
-	background-color: #dee;
+	background-color: #cee;
 	font-size: 10pt;
 	text-transform: capitalize;
 	padding: 4px;

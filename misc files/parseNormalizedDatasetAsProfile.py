@@ -1,9 +1,9 @@
 '''
 profile.txt in this format, to json
 
-ddb_g    
-bio1.hr00 bio1.hr04 bio1.hr08 bio1.hr12 bio1.hr16 bio1.hr20 bio1.hr24    
-bio2.hr00 bio2.hr04 bio2.hr08 bio2.hr12 bio2.hr16 bio2.hr20 bio2.hr24    
+ddb_g
+bio1.hr00 bio1.hr04 bio1.hr08 bio1.hr12 bio1.hr16 bio1.hr20 bio1.hr24
+bio2.hr00 bio2.hr04 bio2.hr08 bio2.hr12 bio2.hr16 bio2.hr20 bio2.hr24
 bio2.prespore    bio2.prestalk    bio4.prespore    bio4.prestalk
 
 DDB_G0267178    0    0    0    0    0    0    0    41.3383717093812
@@ -27,7 +27,8 @@ folder = 'D. discoideum'
 selectedDDBs = ["DDB_G0273069", "DDB_G0279387", "DDB_G0284861"]
 
 pickleFile = 'Pickles/profile'+folder+'.cPickle'
-if not os.path.exists('Pickles'): os.makedirs('Pickles')
+if not os.path.exists('Pickles'):
+    os.makedirs('Pickles')
 if not os.path.exists(pickleFile):
     f = open(folder+'/normalized_data_set.txt', 'r')
     profile = {}
@@ -37,9 +38,9 @@ if not os.path.exists(pickleFile):
             if not header:
                 splits = line[:-1].split("\t")
                 profile[splits[0]] = map(
-                    lambda (x1,x2): (float(x1)+float(x2))/2, 
-                    zip(splits[1:8],splits[8:15])
-                );
+                    lambda (x1, x2): (float(x1)+float(x2))/2,
+                    zip(splits[1:8], splits[8:15])
+                )
             header = 0
     f.close()
     cPickle.dump(profile, open(pickleFile, 'wb'))

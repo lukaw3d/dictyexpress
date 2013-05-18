@@ -4,7 +4,8 @@ import os
 
 
 pickleFile = 'Pickles/allGenes.cPickle'
-if not os.path.exists('Pickles'): os.makedirs('Pickles')
+if not os.path.exists('Pickles'):
+    os.makedirs('Pickles')
 if not os.path.exists(pickleFile):
     f = open('orthologs.txt', 'r')
     header = 1
@@ -21,6 +22,6 @@ if not os.path.exists(pickleFile):
             header = 0
     f.close()
     cPickle.dump(allGenes, open(pickleFile, 'wb'))
-    
+
 allGenes = cPickle.load(open(pickleFile, "rb"))
 print json.dumps({"allGenes": allGenes}, indent=4)

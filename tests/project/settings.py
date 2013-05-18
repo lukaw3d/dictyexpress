@@ -1,9 +1,11 @@
 import os
+import sys
 # Django settings for dicty project.
 
 settingsPath = os.path.abspath(os.path.dirname(__file__))
 templatePath = os.path.join(settingsPath, 'templates')
 staticPath = os.path.join(settingsPath, 'static')
+sys.path.append(os.path.join(settingsPath, '../..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -102,6 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
