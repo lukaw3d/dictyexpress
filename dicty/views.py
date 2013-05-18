@@ -19,23 +19,30 @@ def others(request, sub):
 
 def api(request, sub):
     #request.GET.get()
-    print sub
     if sub=="experiment":
-        return HttpResponse(json.dumps(wholeDict[sub], indent=4))
+        #http://127.0.0.1:8000/api/experiment
+        return HttpResponse(json.dumps(wholeDict["experiment"], indent=4))
     if sub=="profile":
-        #selectedDDBs = ["DDB_G0273069", "DDB_G0279387", "DDB_G0284861"]
+        #http://127.0.0.1:8000/api/profile?
+        #ddbs=DDB_G0273069%2CDDB_G0279387%2CDDB_G0284861&species=D.%20purpureum
         selectedSpecies = request.GET.get("species")
-        print request.GET.get("ddbs")
-        print str(request.GET.get("ddbs")).split(",")
         selectedDDBs = str(request.GET.get("ddbs")).split(",")
-        sub = wholeDict.get("profile"+str(selectedSpecies))
-        if sub:
-            filtered = {selected: sub.get(selected) for selected in selectedDDBs}
+        subset = wholeDict.get("profile"+str(selectedSpecies))
+        if subset:
+            filtered = {sel: subset.get(sel) for sel in selectedDDBs}
             return HttpResponse(json.dumps(filtered, indent=4))
     if sub=="allGenes":
-        pass
+        #http://127.0.0.1:8000/api/allGenes
+        return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4))
     if sub=="comparison":
-        pass
+        #http://127.0.0.1:8000/api/comparison?ddb=DDB_G0273069
+        selectedDDB = str(request.GET.get("ddb"))
+        filtered = {exp["species"]: {
+            "info": exp, 
+            "data": wholeDict["profile"+exp["species"]].get(selectedDDB)
+            } for exp in wholeDict["experiment"]
+        }
+        return HttpResponse(json.dumps(filtered, indent=4))
     return HttpResponse("Hi")
     #return HttpResponse(json.dumps(wholeDict, indent=4))
 
@@ -76,7 +83,10 @@ def loadProfile(folder):
             if line[0] != "#":
                 if not header:
                     splits = line[:-1].split("\t")
-                    profile[splits[0]] = map(
+                    gene = wholeDict["convertGenes"].get(splits[0])
+                    ix = splits[0]
+                    if(gene): ix = gene["ddb"]
+                    profile[ix] = map(
                         lambda (x1,x2): (float(x1)+float(x2))/2, 
                         zip(splits[1:8],splits[8:15])
                     );
@@ -85,9 +95,6 @@ def loadProfile(folder):
         cPickle.dump(profile, open(pickleFile, 'wb'))
 
     profile = cPickle.load(open(pickleFile, "rb"))
-    #selectedDDBs = ["DDB_G0273069", "DDB_G0279387", "DDB_G0284861"]
-    #filteredProfile = {selected: profile[selected] for selected in selectedDDBs}
-    #print json.dumps({"profile": filteredProfile}, indent=4)
     wholeDict["profile"+folder] = profile
     #print json.dumps({"profile": profile}, indent=4)
 
@@ -99,6 +106,7 @@ def loadAllGenes():
         f = open(dataFile, 'r')
         header = 1
         allGenes = {}
+        convertGenes = {}
         for line in f:
             if line[0] != '#':
                 if not header:
@@ -108,22 +116,28 @@ def loadAllGenes():
                         "ddb": splits[1],
                         "jgi_id": splits[2]
                     }
-                    allGenes[splits[1]] = {
+                    convertGenes[splits[0]] = {
                         "name": splits[0],
                         "ddb": splits[1],
                         "jgi_id": splits[2]
                     }
-                    allGenes[splits[2]] = {
+                    convertGenes[splits[1]] = {
+                        "name": splits[0],
+                        "ddb": splits[1],
+                        "jgi_id": splits[2]
+                    }
+                    convertGenes[splits[2]] = {
                         "name": splits[0],
                         "ddb": splits[1],
                         "jgi_id": splits[2]
                     }
                 header = 0
         f.close()
-        cPickle.dump(allGenes, open(pickleFile, 'wb'))
+        cPickle.dump((allGenes,convertGenes), open(pickleFile, 'wb'))
 
-    allGenes = cPickle.load(open(pickleFile, "rb"))
+    (allGenes,convertGenes) = cPickle.load(open(pickleFile, "rb"))
     wholeDict["allGenes"] = allGenes
+    wholeDict["convertGenes"] = convertGenes
     #print json.dumps({"allGenes": allGenes}, indent=4)
 
 if not os.path.exists(dataPath): os.makedirs(dataPath)
