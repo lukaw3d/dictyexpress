@@ -19,15 +19,25 @@ def others(request, sub):
 
 def api(request, sub):
     #request.GET.get()
+    print sub
     if sub=="experiment":
-        pass
+        return HttpResponse(json.dumps(wholeDict[sub], indent=4))
     if sub=="profile":
-        pass
+        #selectedDDBs = ["DDB_G0273069", "DDB_G0279387", "DDB_G0284861"]
+        selectedSpecies = request.GET.get("species")
+        print request.GET.get("ddbs")
+        print str(request.GET.get("ddbs")).split(",")
+        selectedDDBs = str(request.GET.get("ddbs")).split(",")
+        sub = wholeDict.get("profile"+str(selectedSpecies))
+        if sub:
+            filtered = {selected: sub.get(selected) for selected in selectedDDBs}
+            return HttpResponse(json.dumps(filtered, indent=4))
     if sub=="allGenes":
         pass
     if sub=="comparison":
         pass
-    return HttpResponse(wholeDict)
+    return HttpResponse("Hi")
+    #return HttpResponse(json.dumps(wholeDict, indent=4))
 
 
 def loadExperiment():
@@ -77,8 +87,9 @@ def loadProfile(folder):
     profile = cPickle.load(open(pickleFile, "rb"))
     #selectedDDBs = ["DDB_G0273069", "DDB_G0279387", "DDB_G0284861"]
     #filteredProfile = {selected: profile[selected] for selected in selectedDDBs}
-    wholeDict["profile"+folder] = profile
     #print json.dumps({"profile": filteredProfile}, indent=4)
+    wholeDict["profile"+folder] = profile
+    #print json.dumps({"profile": profile}, indent=4)
 
 
 def loadAllGenes():
@@ -94,7 +105,17 @@ def loadAllGenes():
                     splits = line[:-1].split("\t")
                     allGenes[splits[0]] = {
                         "name": splits[0],
-                        "id": splits[1],
+                        "ddb": splits[1],
+                        "jgi_id": splits[2]
+                    }
+                    allGenes[splits[1]] = {
+                        "name": splits[0],
+                        "ddb": splits[1],
+                        "jgi_id": splits[2]
+                    }
+                    allGenes[splits[2]] = {
+                        "name": splits[0],
+                        "ddb": splits[1],
                         "jgi_id": splits[2]
                     }
                 header = 0
@@ -102,18 +123,19 @@ def loadAllGenes():
         cPickle.dump(allGenes, open(pickleFile, 'wb'))
 
     allGenes = cPickle.load(open(pickleFile, "rb"))
-    #print json.dumps({"allGenes": allGenes}, indent=4)
     wholeDict["allGenes"] = allGenes
+    #print json.dumps({"allGenes": allGenes}, indent=4)
 
 if not os.path.exists(dataPath): os.makedirs(dataPath)
 if not os.path.exists(picklePath): os.makedirs(picklePath)
 wholeDict = {}
 
+try: loadAllGenes()
+except IOError: print "Data file missing"
 try: loadExperiment()
 except IOError: print "Data file missing"
 try: loadProfile('D. discoideum')
 except IOError: print "Data file missing"
 try: loadProfile('D. purpureum')
 except IOError: print "Data file missing"
-try: loadAllGenes()
-except IOError: print "Data file missing"
+
