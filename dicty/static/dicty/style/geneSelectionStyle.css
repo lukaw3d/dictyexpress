@@ -1,14 +1,15 @@
-body{
-	padding: 30px;
-}
+
 textArea {
-	width: 280px;
+	min-width: 280px;
+	max-width: 95%;
+	margin-left: 10px;
+	max-height: 300px;
 }
 table {
 	font-family:arial;
 	border: 1px solid #ccc;
 	border-collapse: collapse;
-	margin:10px 0pt 15px;
+	margin: 10px 10px 15px;
 	font-size: 10pt;
 	text-align: left;
 }
@@ -51,10 +52,13 @@ table tbody tr:hover td{
 	cursor: pointer;
 }
 #geneSelector table{
-	position: relative;
+	position: absolute;
 	font-size:8pt;
+	margin-top: 0;
+	background-color: #fff;
+	z-index:999;
 	display:none;
 }
 #geneSelector:hover table{
-	display:inline;
+	display:block;
 }

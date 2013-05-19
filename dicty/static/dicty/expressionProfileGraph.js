@@ -26,7 +26,7 @@ function ProfileGraph($scope, $http){
 			}
 		}
 		
-		$('#container').highcharts({
+		$('#containerProfileGraph').highcharts({
 			credits: {enabled:false},			
 			chart: {type: 'line'},
 			title: {

@@ -25,7 +25,7 @@ function ComparisonGraph($scope, $http) {
 			names.push("...");
 		}
 
-		$('#container').highcharts({
+		$('#containerComparisonGraph').highcharts({
 			//getIme = "D. discoideum";
 			credits: {enabled:false},
 			chart: {type: 'line'},

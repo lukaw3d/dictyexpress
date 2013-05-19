@@ -57,9 +57,11 @@ function GeneSelector($scope, $http) {
 				var lastStr=geneinput.substring(geneinput.lastIndexOf(" ")+1);
 				b = name.lastIndexOf(lastStr, 0) == 0; //startsWith()
 			}
-			if(b) ret.push($scope.allGenes[i]); 
-			cnt++;
-			if(cnt>50) break;
+			if(b){
+				ret.push($scope.allGenes[i]); 
+				cnt++;
+			}
+			if(cnt>20) break;
 		}
 		
 		return ret;
