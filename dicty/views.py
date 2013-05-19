@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import Http404
+from time import sleep
 
 import json
 import cPickle
@@ -12,10 +13,12 @@ picklePath = os.path.join(dataPath, 'Pickles')
 
 
 def index(request):
+    #sleep(3)
     return render(request, 'dicty/index.html', {})
 
 
 def others(request, sub):
+    #sleep(3)
     try:
         return render(request, 'dicty/'+sub, {})
     except:
@@ -23,10 +26,12 @@ def others(request, sub):
 
 
 def api(request, sub):
+    #sleep(3)
     #request.GET.get()
     if sub == "experiment":
         #http://127.0.0.1:8000/api/experiment
-        return HttpResponse(json.dumps(wholeDict["experiment"], indent=4), content_type="application/json")
+        return HttpResponse(json.dumps(wholeDict["experiment"], indent=4),
+            content_type="application/json")
     if sub == "profile":
         #http://127.0.0.1:8000/api/profile?
         #ddbs=DDB_G0273069%2CDDB_G0279387%2CDDB_G0284861&species=D.%20purpureum
@@ -34,23 +39,38 @@ def api(request, sub):
         selectedDDBs = str(request.GET.get("ddbs")).split(",")
         subset = wholeDict.get("profile"+str(selectedSpecies))
         if subset:
-            filtered = {sel: subset.get(sel) for sel in selectedDDBs}
-            return HttpResponse(json.dumps(filtered, indent=4), content_type="application/json")
+            filtered = {
+                sel: subset.get(getDDB(sel))
+                for sel in selectedDDBs
+            }
+            return HttpResponse(json.dumps(filtered, indent=4),
+                content_type="application/json")
         else:
             return HttpResponse("Hi. Bad params", content_type="text/plain")
     if sub == "allGenes":
         #http://127.0.0.1:8000/api/allGenes
-        return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4), content_type="application/json")
+        return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4),
+            content_type="application/json")
     if sub == "comparison":
         #http://127.0.0.1:8000/api/comparison?ddb=DDB_G0273069
         selectedDDB = str(request.GET.get("ddb"))
         filtered = {exp["species"]: {
             "info": exp,
-            "data": wholeDict["profile"+exp["species"]].get(selectedDDB)
+            "data": wholeDict["profile"+exp["species"]].get(
+                getDDB(selectedDDB))
         } for exp in wholeDict["experiment"]}
-        return HttpResponse(json.dumps(filtered, indent=4), content_type="application/json")
-    return HttpResponse("Hi", content_type="text/plain")
+        return HttpResponse(json.dumps(filtered, indent=4),
+            content_type="application/json")
+    raise Http404
     #return HttpResponse(json.dumps(wholeDict, indent=4))
+
+
+def getDDB(ddbOrNameOrJgi):
+    gene = wholeDict["convertGenes"].get(ddbOrNameOrJgi)
+    if gene:
+        return gene["ddb"]
+    else:
+        return ddbOrNameOrJgi
 
 
 def loadExperiment():
@@ -89,10 +109,7 @@ def loadProfile(folder):
             if line[0] != "#":
                 if not header:
                     splits = line[:-1].split("\t")
-                    gene = wholeDict["convertGenes"].get(splits[0])
-                    ix = splits[0]
-                    if gene:
-                        ix = gene["ddb"]
+                    ix = getDDB(splits[0])
                     profile[ix] = map(
                         lambda (x1, x2): (float(x1)+float(x2))/2,
                         zip(splits[1:8], splits[8:15])
@@ -158,14 +175,14 @@ try:
 except IOError:
     print "Data file missing"
 try:
-    loadExperiment()
-except IOError:
-    print "Data file missing"
-try:
     loadProfile('D. discoideum')
 except IOError:
     print "Data file missing"
 try:
     loadProfile('D. purpureum')
+except IOError:
+    print "Data file missing"
+try:
+    loadExperiment()
 except IOError:
     print "Data file missing"

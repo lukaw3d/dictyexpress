@@ -44,7 +44,7 @@ table thead th[sort="down"] {
 	background-image: url(desc.gif);
 	background-repeat: no-repeat;
 }
-table tbody tr[selected="true"] td{
+table tbody tr[selectedRow="true"] td{
 	background-color: #9ce;
 }
 table tbody tr:hover td{
