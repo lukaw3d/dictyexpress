@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import Http404
 
 import json
 import cPickle
@@ -15,7 +16,10 @@ def index(request):
 
 
 def others(request, sub):
-    return render(request, 'dicty/'+sub, {})
+    try:
+        return render(request, 'dicty/'+sub, {})
+    except:
+        raise Http404
 
 
 def api(request, sub):

@@ -1,46 +1,81 @@
-{% load staticfiles %}<!DOCTYPE HTML>
-<html>
+<!DOCTYPE HTML>
+<html ng-app>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Dicty Express</title>
+		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static "dicty/style/indexStyle.css" %}" />
+		<script src="{% static "dicty/libs/jquery-1.9.1.min.js" %}"></script>
+		<script src="{% static "dicty/libs/angular.min.js" %}"></script>
+		<script src="{% static "dicty/libs/highcharts.js" %}" ></script>
+		<script src="{% static "dicty/libs/exporting.js" %}"></script>
+		<script src="{% static "dicty/DictyTable.js" %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static "dicty/style/geneSelectionStyle.css" %}" />
+		<script src="{% static "dicty/experimentComparisonGraph.js" %}"></script>
+		<script src="{% static "dicty/expressionProfileGraph.js" %}"></script>
+		<script src="{% static "dicty/wingGraph.js" %}"></script>
 	</head>
 	<body>
+		{% verbatim %}
 		<div>
+			<div>
+				<br>
+				<h2>&nbsp;Dicty express graphs in Html5</h2>
+			</div>
 			<br>
-			<h2>Dicty express graphs in Html5</h2>
-			Keeping files seperated for now (easier development)
-			<br>
-			<br>
+			<div class="half">
+				<br>
+				<table class="tablesorter" ng-controller="DictyTable">
+					<thead>
+						<tr>
+							<th ng-class="sortHeader" ng-repeat="hdr in sortHeaders" ng-click="setSortBy(hdr, $event);">
+								{{hdr}}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="expRow" ng-repeat="expRow in experiment | orderBy:getSortBy():getReverseSort()" ng-click="selectRow(expRow, $event)">
+							<td ng-repeat="hdr in sortHeaders">{{expRow[hdr]}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="geneSelector" ng-controller='GeneSelector'>
+					 <textArea id="geneTextInput" ng-model="geneInput"></textArea>
+					 <table>
+						<thead>
+							<tr>
+								<th ng-repeat='keys in sortHeaders'>{{keys}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="gene in allGenesFiltered(geneInput)" ng-click="selectGene(gene, $event)">
+								<td ng-repeat="geneAttrs in sortHeaders">{{gene[geneAttrs]}}</td>
+							</tr>
+						</tbody>
+					 </table>
+				</div>
+				<br>
+				<br>
+			</div>
+			<div class="half" ng-controller="ProfileGraph">
+				<br>
+				<div id="containerProfileGraph"></div>
+				<br>
+				<br>
+			</div>
+			<div class="half" ng-controller="ComparisonGraph">
+				<br>
+				<div id="containerComparisonGraph"></div>
+				<br>
+				<br>
+			</div>
+			<div class="half" ng-controller="WingGraph">
+				<br>
+				<div id="containerWingGraph"></div>
+				<br>
+				<br>
+			</div>
 		</div>
-		<br>
-		<div class="half">
-			<br>
-			<iframe src="geneSelection.html">
-			</iframe>
-			<br>
-			<br>
-		</div>
-		<div class="half">
-			<br>
-			<iframe src="expressionProfileGraph.html">
-			</iframe>
-			<br>
-			<br>
-		</div>
-		<div class="half">
-			<br>
-			<iframe src="experimentComparisonGraph.html">
-			</iframe>
-			<br>
-			<br>
-		</div>
-		<div class="half">
-			<br>
-			<iframe src="wingGraph.html">
-			</iframe>
-			<br>
-			<br>
-		</div>
+		{% endverbatim %}
 	</body>	
 </html>
