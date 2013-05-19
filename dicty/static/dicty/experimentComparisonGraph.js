@@ -1,13 +1,16 @@
 function ComparisonGraph($scope, $http) {
-	var selectedToCompare = "DDB_G0279387";
+	$scope.selectedToCompare = "DDB_G0279387";
 	var comparison = null;
 
-	$http.get('api/comparison?ddb='+selectedToCompare).success(function(data) {
-		comparison = data;
-		refresh();
-	});
-	
-	function refresh(){
+	$scope.reload = function(){
+		comparison = null;
+		$scope.refresh();
+		$http.get('api/comparison?ddb='+$scope.selectedToCompare).success(function(data) {
+			comparison = data;
+			$scope.refresh();
+		});
+	}
+	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}]
 		var names = [];
 		if(comparison){
@@ -30,7 +33,7 @@ function ComparisonGraph($scope, $http) {
 			credits: {enabled:false},
 			chart: {type: 'line'},
 			title: {
-				text: 'Experiment Comparison for gene '+selectedToCompare,
+				text: 'Experiment Comparison for gene '+$scope.selectedToCompare,
 				x: -20 //center
 			},
 			subtitle: {
@@ -58,6 +61,9 @@ function ComparisonGraph($scope, $http) {
 			tooltip: {
 				shared: true,
 				crosshairs: true,
+				positioner: function (boxWidth, boxHeight, point) {
+					return {x:point.plotX, y:0};
+				},
 				formatter: function() {
 					var str = 'Time: <b>'+ this.x +'h';
 					$.each(this.points, function(i, point) {
@@ -77,7 +83,13 @@ function ComparisonGraph($scope, $http) {
 			plotOptions: {
 				series: {
 					pointStart: 0,
-					pointInterval: 4 
+					pointInterval: 4,
+					cursor: 'pointer',
+					events: {
+						click: function(event) {
+							refreshSpecies(this.name);
+						}
+					}
 				}
 			},
 			// get data
@@ -85,5 +97,5 @@ function ComparisonGraph($scope, $http) {
 		});
 	}
 	
-	refresh();
+	$scope.reload();
 }

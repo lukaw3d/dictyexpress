@@ -1,20 +1,26 @@
 function ProfileGraph($scope, $http){
-	var specie = 'D. discoideum';
+	$scope.specie = 'D. discoideum';
 	var profile = null;
 	var currentExperiment = null;
-	var selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
-
-	$http.get('api/experiment').success(function(data){
-		for(var i in data){
-			if(i["species"]==specie) currentExperiment = data[i];
-		}
-		refresh();
-	});
-	$http.get('api/profile?'+encodeURI('ddbs='+selectedDDBs.join(",")+'&species='+specie)).success(function(data){
-		profile = data;
-		refresh();
-	});
-	function refresh(){
+	$scope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
+	$scope.selectedGene = $scope.selectedDDBs[0];
+	
+	$scope.reload = function(){
+		profile = null;
+		currentExperiment = null;
+		$scope.refresh();
+		$http.get('api/experiment').success(function(data){
+			for(var i in data){
+				if(i["species"]==$scope.specie) currentExperiment = data[i];
+			}
+			$scope.refresh();
+		});
+		$http.get('api/profile?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&species='+$scope.specie)).success(function(data){
+			profile = data;
+			$scope.refresh();
+		});
+	}
+	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}];
 		if(profile){
 			dataForSeries=[];
@@ -58,6 +64,9 @@ function ProfileGraph($scope, $http){
 			tooltip: {
 				shared: true,
 				crosshairs: true,
+				positioner: function (boxWidth, boxHeight, point) {
+					return {x:point.plotX, y:0};
+				},
 				formatter: function() {
 					var str = 'Time: <b>'+ this.x +'h';
 					$.each(this.points, function(i, point) {
@@ -77,7 +86,14 @@ function ProfileGraph($scope, $http){
 			plotOptions: {
 				series: {
 					pointStart: 0,
-					pointInterval: 4 
+					pointInterval: 4,
+					cursor: 'pointer',
+					events: {
+						click: function(event) {
+							$scope.selectedGene = $scope.selectedDDBs[this.index];
+							refreshOneGene($scope.selectedGene);
+						}
+					}
 				}
 			},
 			// get data
@@ -86,5 +102,5 @@ function ProfileGraph($scope, $http){
 		});
 	}
 	
-	refresh();
+	$scope.reload();
 }

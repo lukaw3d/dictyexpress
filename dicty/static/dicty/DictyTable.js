@@ -3,6 +3,7 @@ function DictyTable($scope, $http) {
 	$http.get('api/experiment').success(function(data) {
 		$scope.experiment = data;
 		$scope.selectedSpecies=$scope.experiment[0].species;
+		setTimeout($scope.reload,100);
 	});
 	
 	$scope.sortBy = 'strain';
@@ -22,12 +23,19 @@ function DictyTable($scope, $http) {
 	$scope.getReverseSort = function(){
 		return $scope.reverseSort;
 	}
-	$scope.selectRow = function(experimentRow, event){
-		$scope.selectedSpecies=experimentRow.species;
-		$('.expRow').removeAttr("selected");
-		event.currentTarget.setAttribute("selected","true"); //need to make this better
+	$scope.reload = function(){
+		$('.expRow').removeAttr("selectedRow");
+		$('.specie'+$scope.escapeString($scope.selectedSpecies)).attr("selectedRow", "true");
 	}
-	
+	$scope.selectRow = function(experimentRow, event){
+		$scope.selectedSpecies = experimentRow.species;
+		$scope.reload();
+		refreshSpecies($scope.selectedSpecies);
+	}
+	$scope.escapeString = function(str){
+		if(str) return str.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'X');
+		else return str;
+	}
 }
 
 
@@ -43,8 +51,10 @@ function GeneSelector($scope, $http) {
 		var str=$('#geneTextInput').val();
 		str = str.replace(new RegExp(gene.name+" ","g"), ""); //remove if same exists and add it to end
 		str = str.substring(0, str.lastIndexOf(" "));
-		
-		$('#geneTextInput').val($.trim(str + " " + gene.name) + " ");
+		var inputString = $.trim(str + " " + gene.name) + " ";
+		$('#geneTextInput').val(inputString);
+		$scope.selectedGenes = inputString;
+		globalRefresh();
 	}
 	
 	$scope.allGenesFiltered = function(geneinput){
@@ -63,8 +73,6 @@ function GeneSelector($scope, $http) {
 			}
 			if(cnt>20) break;
 		}
-		
 		return ret;
 	}
-	
 }
