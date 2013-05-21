@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import Http404
 from time import sleep
+import urllib
 
 import json
 import cPickle
@@ -27,14 +28,12 @@ def others(request, sub):
 
 def api(request, sub):
     #sleep(3)
-    #request.GET.get()
-    if sub == "experiment":
-        #http://127.0.0.1:8000/api/experiment
+    if sub == "":
+        return render(request, 'dicty/api.html', {})
+    if sub == "experiment": #/api/experiment
         return HttpResponse(json.dumps(wholeDict["experiment"], indent=4),
                             content_type="application/json")
-    if sub == "profile":
-        #http://127.0.0.1:8000/api/profile?
-        #ddbs=DDB_G0273069%2CDDB_G0279387%2CDDB_G0284861&species=D.%20purpureum
+    if sub == "profile": #/api/profile?ddbs=,,,&species=
         selectedSpecies = request.GET.get("species")
         selectedDDBs = str(request.GET.get("ddbs")).split(",")
         subset = wholeDict.get("profile"+str(selectedSpecies))
@@ -47,12 +46,10 @@ def api(request, sub):
                                 content_type="application/json")
         else:
             return HttpResponse("Hi. Bad params", content_type="text/plain")
-    if sub == "allGenes":
-        #http://127.0.0.1:8000/api/allGenes
+    if sub == "allGenes": #/api/allGenes
         return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4),
                             content_type="application/json")
-    if sub == "comparison":
-        #http://127.0.0.1:8000/api/comparison?ddb=DDB_G0273069
+    if sub == "comparison": #/api/comparison?ddb=DDB_G0273069
         selectedDDB = str(request.GET.get("ddb"))
         filtered = {exp["species"]: {
             "info": exp,
@@ -61,6 +58,12 @@ def api(request, sub):
         } for exp in wholeDict["experiment"]}
         return HttpResponse(json.dumps(filtered, indent=4),
                             content_type="application/json")
+    if sub == "wingy":
+        temp = 'http://dictyexpress.biolab.si/script/get_volcano_new.py'
+        add = '?pass1=rnaseq&user1=rnaseq&gene_gid_list=%s&org=%s'
+        params = (request.GET.get("ddbs"), request.GET.get("type"))
+        f = urllib.urlopen(temp+add % params)
+        return HttpResponse(f.read(), content_type="text/plain")
     raise Http404
     #return HttpResponse(json.dumps(wholeDict, indent=4))
 

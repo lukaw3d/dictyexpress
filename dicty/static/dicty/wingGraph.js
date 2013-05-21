@@ -6,12 +6,12 @@ function WingGraph($scope, $http) {
 	var wingyData = {};
 	$scope.reload = function(){
 		wingyData = {};
-		dataUrl = 'http://dictyexpress.biolab.si/script/get_volcano_new.py?gene%5Fgid%5Flist='+$scope.selectedDDBs.join(",")+'&org='+$scope.selectedType+'&pass1=rnaseq&user1=rnaseq';
+		dataUrl = 'api/wingy?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&type='+$scope.selectedType);
 		imgUrl = 'http://dictyexpress.biolab.si/script//volcano/'+$scope.selectedType+'.png';
 		$http.get(dataUrl).success(function(data) {
-			alert("probably no crossDomain access " + data);
-			var lines = data.split(/\r?\n/);
-			var firsts = lines.splice(0,1).split("\t");
+			var lines = data.split(/\r?\n/).filter(function(e){return e;}); //clear emptys
+			var firsts = lines.splice(0,1);
+			firsts = firsts[0].split(" ");
 			wingyData = {};
 			wingyData.minx=parseFloat(firsts[0]);
 			wingyData.maxx=parseFloat(firsts[1]);

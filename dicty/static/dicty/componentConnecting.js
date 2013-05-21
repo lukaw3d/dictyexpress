@@ -60,7 +60,7 @@ function refreshSpecies(species, dontHash){
 function refreshGenes(genes, dontHash){
 	if(!dontHash) hashAdd("genes",genes);
 	if(genes){
-		genes = genes.split(" ").filter(function(e){return e;});
+		genes = genes.split(" ").filter(function(e){return e;}); //clear emptys
 		angular.element('[ng-controller=ProfileGraph]').scope().selectedDDBs = genes;
 		angular.element('[ng-controller=ProfileGraph]').scope().reload();
 		angular.element('[ng-controller=WingGraph]').scope().selectedDDBs = genes;
