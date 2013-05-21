@@ -11,15 +11,26 @@ function ProfileGraph($scope, $http){
 		$scope.refresh();
 		$http.get('api/experiment').success(function(data){
 			for(var i in data){
-				if(i["species"]==$scope.specie) currentExperiment = data[i];
+				if(data[i]["species"]==$scope.specie) currentExperiment = data[i];
 			}
-			$scope.refresh();
+			if($('#containerProfileGraph').highcharts()){
+				$('#containerProfileGraph').highcharts().setTitle(
+					{text: 'Expression Profile', x: -20},
+					{text: makeSubtitle(), x: -20}
+				);
+			}else{
+				$scope.refresh();
+			}
 		});
 		$http.get('api/profile?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&species='+$scope.specie)).success(function(data){
 			profile = data;
 			$scope.refresh();
 		});
 	};
+	function makeSubtitle(){
+		if(currentExperiment) return currentExperiment.species+' / '+currentExperiment.strain+' / '+currentExperiment.growth;
+		else return " ";
+	}
 	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}];
 		if(profile){
@@ -40,7 +51,7 @@ function ProfileGraph($scope, $http){
 				x: -20 //center
 			},
 			subtitle: {
-				text: currentExperiment ? (currentExperiment.species+' / '+currentExperiment.strain+' / '+currentExperiment.growth) : "",
+				text: makeSubtitle(),
 				x: -20
 			},
 			xAxis: {

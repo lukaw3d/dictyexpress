@@ -1,8 +1,10 @@
 function DictyTable($scope, $http) {
 	$scope.experiment = [{}];
+	$scope.selectedSpecies = null;
 	$http.get('api/experiment').success(function(data) {
 		$scope.experiment = data;
-		$scope.selectedSpecies=$scope.experiment[0].species;
+		if(! $scope.selectedSpecies)
+			$scope.selectedSpecies=$scope.experiment[0].species;
 		setTimeout($scope.reload,100);
 	});
 	
