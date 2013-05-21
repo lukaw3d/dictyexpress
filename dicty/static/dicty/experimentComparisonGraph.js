@@ -9,7 +9,7 @@ function ComparisonGraph($scope, $http) {
 			comparison = data;
 			$scope.refresh();
 		});
-	}
+	};
 	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}]
 		var names = [];
@@ -95,7 +95,7 @@ function ComparisonGraph($scope, $http) {
 			// get data
 			series: dataForSeries
 		});
-	}
+	};
 	
 	$scope.reload();
 }

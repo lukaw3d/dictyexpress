@@ -63,6 +63,8 @@ function refreshGenes(genes, dontHash){
 		genes = genes.split(" ").filter(function(e){return e;});
 		angular.element('[ng-controller=ProfileGraph]').scope().selectedDDBs = genes;
 		angular.element('[ng-controller=ProfileGraph]').scope().reload();
+		angular.element('[ng-controller=WingGraph]').scope().selectedDDBs = genes;
+		angular.element('[ng-controller=WingGraph]').scope().reload();
 	}
 }
 function globalRefresh(){
