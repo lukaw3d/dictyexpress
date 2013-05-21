@@ -61,7 +61,8 @@ def api(request, sub):
     if sub == "wingy":
         temp = 'http://dictyexpress.biolab.si/script/get_volcano_new.py'
         add = '?pass1=rnaseq&user1=rnaseq&gene_gid_list=%s&org=%s'
-        params = (request.GET.get("ddbs"), request.GET.get("type"))
+        ddbs = [getDDB(sel) for sel in request.GET.get("ddbs").split(",")]
+        params = (",".join(ddbs), request.GET.get("type"))
         f = urllib.urlopen(temp+add % params)
         return HttpResponse(f.read(), content_type="text/plain")
     raise Http404

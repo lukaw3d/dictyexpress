@@ -5,7 +5,7 @@ function hashToMap(){
 		hash = hash.split('&');
 		for(var i=0; i < hash.length; i++){
 			var arr = hash[i].split('=');
-			hashVars[arr[0]] = arr[1];
+			hashVars[arr[0]] = decodeURIComponent(arr[1]);
 		}
 	}
 	return hashVars;
