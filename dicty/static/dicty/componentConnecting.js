@@ -1,5 +1,5 @@
 function hashToMap(){
-	var hashVars = {};
+	hashVars = {};
 	var hash = document.URL.split('#')[1];
 	if(hash != undefined){
 		hash = hash.split('&');
@@ -8,11 +8,10 @@ function hashToMap(){
 			hashVars[arr[0]] = decodeURIComponent(arr[1]);
 		}
 	}
-	return hashVars;
 }
 
 function hashChange(){
-	hashVars = hashToMap();
+	hashToMap();
 	//load
 	setTimeout(innerHashChange, 100);
 }
@@ -28,12 +27,18 @@ function innerHashChange(){
 		refreshGenes(gn, true);
 	}
 }
+timedAdd = null;
+hashVars = {};
 function hashAdd(key,val){
-	hashVars = hashToMap();
 	hashVars[key]=val;
+	if(timedAdd) clearTimeout(timedAdd); //limit history, max 1 entry per half second
+	timedAdd = setTimeout(hashSubAdd, 500);
+}
+function hashSubAdd(){
 	var str = [];
 	for(var p in hashVars) str.push(p+'='+hashVars[p]);
-	window.location.hash = str.join("&");
+	 window.location.hash = str.join("&");
+	 timedAdd = null;
 }
 
 $(function() {

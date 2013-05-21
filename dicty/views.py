@@ -11,15 +11,16 @@ import os
 dictyPath = os.path.abspath(os.path.dirname(__file__))
 dataPath = os.path.join(dictyPath, "../data")
 picklePath = os.path.join(dataPath, 'Pickles')
+fakePing = 1
 
 
 def index(request):
-    #sleep(3)
+    sleep(fakePing)
     return render(request, 'dicty/index.html', {})
 
 
 def others(request, sub):
-    #sleep(3)
+    sleep(fakePing)
     try:
         return render(request, 'dicty/'+sub, {})
     except:
@@ -27,7 +28,7 @@ def others(request, sub):
 
 
 def api(request, sub):
-    #sleep(3)
+    sleep(fakePing)
     if sub == "":
         return render(request, 'dicty/api.html', {})
     if sub == "experiment": #/api/experiment
