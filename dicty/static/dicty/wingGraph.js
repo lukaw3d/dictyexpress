@@ -67,7 +67,32 @@ function WingGraph($scope, $http) {
 				{
 					contextButton:{
 						enabled: true,
-						text: 'Export'					
+						text: 'Export',
+						menuItems: [{
+							text: 'Export to PNG',							
+							onclick: function() {
+								this.exportChart({
+									type: 'image/png'
+								});
+							}
+						}, {
+							text: 'Export to PDF',							
+							onclick: function() {
+								this.exportChart({
+									type: 'application/pdf'
+								});
+							},
+							separator: false
+						}, {
+							text:'null',
+							separator: true
+						},{
+							text: 'Print chart',							
+							onclick: function() {
+								this.print();
+							},
+							separator: false							
+						}]						
 					}
 
 				}
