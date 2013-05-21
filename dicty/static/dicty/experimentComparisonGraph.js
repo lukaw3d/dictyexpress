@@ -58,6 +58,27 @@ function ComparisonGraph($scope, $http) {
 				}],
 				labels: {format: '{value}'}
 			},
+			exporting: {
+				enabled: true,
+
+				buttons: 			
+				{
+					contextButton:{
+						enabled: true,
+						text: 'Export'					
+					},
+
+					customButton:
+					{
+					
+						symbol: 'circle',
+						text: 'Extra button',
+						onclick: function() {
+							alert('Extra'); 
+						}
+					}
+				}
+			},
 			tooltip: {
 				shared: true,
 				crosshairs: true,

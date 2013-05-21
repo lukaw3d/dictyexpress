@@ -61,6 +61,18 @@ function ProfileGraph($scope, $http){
 				}],
 				labels: {format: '{value}'}
 			},
+			exporting: {
+				enabled: true,
+
+				buttons: 			
+				{
+					contextButton:{
+						enabled: true,
+						text: 'Export'					
+					}
+
+				}
+			},
 			tooltip: {
 				shared: true,
 				crosshairs: true,
