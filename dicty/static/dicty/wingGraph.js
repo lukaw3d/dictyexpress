@@ -60,6 +60,18 @@ function WingGraph($scope, $http) {
 				max:wingyData.maxy,
 				labels: {format: '{value}'}
 			},
+			exporting: {
+				enabled: true,
+
+				buttons: 			
+				{
+					contextButton:{
+						enabled: true,
+						text: 'Export'					
+					}
+
+				}
+			},
 			tooltip: {
 				pointFormat: '{point.x}, {point.y}'
 			},
