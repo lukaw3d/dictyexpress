@@ -16,26 +16,26 @@ function DictyTable($scope, $http) {
 		$scope.reverseSort=!$scope.reverseSort;
 		$('th[ng-class="sortHeader"]').removeAttr("sort");
 		event.currentTarget.setAttribute("sort",$scope.reverseSort?"up":"down");
-	}
+	};
 	$scope.getSortBy = function(){
 		return $scope.sortBy;
-	}
+	};
 	$scope.getReverseSort = function(){
 		return $scope.reverseSort;
-	}
+	};
 	$scope.reload = function(){
 		$('.expRow').removeAttr("selectedRow");
 		$('.specie'+$scope.escapeString($scope.selectedSpecies)).attr("selectedRow", "true");
-	}
+	};
 	$scope.selectRow = function(experimentRow, event){
 		$scope.selectedSpecies = experimentRow.species;
 		$scope.reload();
 		refreshSpecies($scope.selectedSpecies);
-	}
+	};
 	$scope.escapeString = function(str){
 		if(str) return str.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'X');
 		else return str;
-	}
+	};
 }
 
 
@@ -55,7 +55,7 @@ function GeneSelector($scope, $http) {
 		$('#geneTextInput').val(inputString);
 		$scope.selectedGenes = inputString;
 		globalRefresh();
-	}
+	};
 	
 	$scope.allGenesFiltered = function(geneinput){
 		var ret=[];
@@ -74,5 +74,5 @@ function GeneSelector($scope, $http) {
 			if(cnt>20) break;
 		}
 		return ret;
-	}
+	};
 }

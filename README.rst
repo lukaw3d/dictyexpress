@@ -14,4 +14,5 @@ Possible libraries to use:
   python setup.py develop
   python setup.py install
   cd tests
-   python ./manage.py runserver
+   python manage.py runserver
+   python manage.py runserver --insecure

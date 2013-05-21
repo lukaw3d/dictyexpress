@@ -19,7 +19,7 @@ function ProfileGraph($scope, $http){
 			profile = data;
 			$scope.refresh();
 		});
-	}
+	};
 	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}];
 		if(profile){
@@ -100,7 +100,7 @@ function ProfileGraph($scope, $http){
 			series: dataForSeries
 	
 		});
-	}
+	};
 	
 	$scope.reload();
 }
