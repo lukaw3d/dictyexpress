@@ -82,7 +82,10 @@ def api(request, sub):
     if sub == "wingy":  # /api/wingy?ddbs=,,,&type=
         temp = 'http://dictyexpress.biolab.si/script/get_volcano_new.py'
         add = '?pass1=rnaseq&user1=rnaseq&gene_gid_list=%s&org=%s'
-        ddbs = [getDDB(sel) for sel in request.GET.get("ddbs").split(",")]
+        ix = "ddb"
+        if request.GET.get("type")[1] == 'p':
+            ix = "jgi_id"  # biolab's server is weird..
+        ddbs = [getDDB(sel, ix) for sel in request.GET.get("ddbs").split(",")]
         params = (",".join(ddbs), request.GET.get("type"))
         f = urllib.urlopen(temp+add % params)
         return HttpResponse(f.read(), content_type="text/plain")
@@ -91,10 +94,10 @@ def api(request, sub):
     #return HttpResponse(json.dumps(wholeDict, indent=4))
 
 
-def getDDB(ddbOrNameOrJgi):
+def getDDB(ddbOrNameOrJgi, ix="ddb"):
     gene = wholeDict["convertGenes"].get(ddbOrNameOrJgi)
     if gene:
-        return gene["ddb"]
+        return gene[ix]
     else:
         return ddbOrNameOrJgi
 

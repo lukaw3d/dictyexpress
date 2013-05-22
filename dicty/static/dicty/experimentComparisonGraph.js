@@ -2,7 +2,7 @@ function ComparisonGraph($scope, $http) {
 	$scope.selectedToCompare = "DDB_G0279387";
 	$scope.possibleSelections= ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	var comparison = null;
-
+	
 	$scope.reload = function(){
 		comparison = null;
 		$scope.refresh();
@@ -23,12 +23,9 @@ function ComparisonGraph($scope, $http) {
 					data: comparison[ee].data
 				});
 			}
+			$scope.names = names;
 		}
-		if(names.length > 5){ //limit too large subtitle
-			names = names.splice(0,5);
-			names.push("...");
-		}
-
+		
 		$('#containerComparisonGraph').highcharts({
 			//getIme = "D. discoideum";
 			credits: {enabled:false},
@@ -36,10 +33,6 @@ function ComparisonGraph($scope, $http) {
 			title: {
 				text: null,
 				x: -20 //center
-			},
-			subtitle: {
-				text: names.join(" / "),
-				x: -20
 			},
 			xAxis: {
 				title: {text: 'time [hrs]'},

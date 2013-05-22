@@ -42,6 +42,9 @@ h1, h2, h3 {
 	z-index:500;
 	position:absolute;
 }
+.padTop{
+	padding-top: 5px;
+}
 .graphHeading{
 	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 	font-size:16px;
