@@ -1,5 +1,6 @@
 function ComparisonGraph($scope, $http) {
 	$scope.selectedToCompare = "DDB_G0279387";
+	$scope.possibleSelections= ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	var comparison = null;
 
 	$scope.reload = function(){
@@ -33,7 +34,7 @@ function ComparisonGraph($scope, $http) {
 			credits: {enabled:false},
 			chart: {type: 'line'},
 			title: {
-				text: 'Experiment Comparison for gene '+$scope.selectedToCompare,
+				text: null,
 				x: -20 //center
 			},
 			subtitle: {
@@ -91,17 +92,6 @@ function ComparisonGraph($scope, $http) {
 							},
 							separator: false							
 						}]						
-					},
-
-					customButton:
-					{
-					
-						symbol: 'circle',
-						text: 'Extra button',
-						menuItems: [null]
-						/*onclick: function() {
-							alert('Extra'); 
-						}*/
 					}
 				}
 			},
@@ -141,27 +131,7 @@ function ComparisonGraph($scope, $http) {
 			},
 			// get data
 			series: dataForSeries
-//***************************************************************
-		},function(){
-        //console.dir(this);
-        // this item should be added only to  this one chart.
-		
-		var adr=document.URL;
-		var s=adr.search("genes=") + 6;
-		var e=adr.search("&oneGene");
-		var fir =adr.substring(s,e);
-		var spl = fir.split(" ");
-		for(var i=0; i<spl.length-1; i++){
-			this.options.exporting.buttons.customButton.menuItems.push({
-				text: spl[i],
-				onclick: function(){
-					
-					//
-				}
-			});
-		}
-    });
-//***************************************************************
+		});
 	};
 	
 	$scope.reload();

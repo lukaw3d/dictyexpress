@@ -26,6 +26,8 @@ function innerHashChange(){
 		$('#geneTextInput').val(gn);
 		refreshGenes(gn, true);
 	}
+	var typeVs = hashVars["typeVs"];
+	if(typeVs) refreshTypeVs(typeVs, true);
 }
 timedAdd = null;
 hashVars = {};
@@ -70,7 +72,14 @@ function refreshGenes(genes, dontHash){
 		angular.element('[ng-controller=ProfileGraph]').scope().reload();
 		angular.element('[ng-controller=WingGraph]').scope().selectedDDBs = genes;
 		angular.element('[ng-controller=WingGraph]').scope().reload();
+		angular.element('[ng-controller=ComparisonGraph]').scope().possibleSelections = genes;
+		angular.element('[ng-controller=ComparisonGraph]').scope().reload();
 	}
+}
+function refreshTypeVs(typeVs, dontHash){
+	if(!dontHash) hashAdd("typeVs",typeVs);
+	angular.element('[ng-controller=WingGraph]').scope().possibleTypes = typeVs;
+	angular.element('[ng-controller=WingGraph]').scope().reload();
 }
 function globalRefresh(){
 	var oneGene = angular.element('[ng-controller=ProfileGraph]').scope().selectedGene;

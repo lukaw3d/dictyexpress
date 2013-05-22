@@ -23,6 +23,7 @@ h1, h2, h3 {
 	width: 47.5%;
 	vertical-align: top;
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+	border: 1px solid #999;
 	overflow: hidden;
 	margin: 1%;
 	height: 450px;
@@ -36,4 +37,18 @@ h1, h2, h3 {
 		margin: 1%;
 		height: 450px;
 	}	
+}
+.highZ{
+	z-index:500;
+	position:absolute;
+}
+.graphHeading{
+	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#274b6d;
+}
+.graphSubHeading{
+	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#4d759e;
 }

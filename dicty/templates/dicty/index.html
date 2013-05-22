@@ -61,9 +61,19 @@
 				<div id="containerProfileGraph"></div>
 			</div>
 			<div class="half" ng-controller="ComparisonGraph">
+				<p class="graphHeading text-center">Experiment Comparison for gene
+					<select ng-model="selectedCompare" class="graphHeading">
+						<option ng-repeat="type in possibleSelections">{{type}}</option>
+					</select>
+				</p>
 				<div id="containerComparisonGraph"></div>
 			</div>
 			<div class="half" ng-controller="WingGraph">
+				<p class="graphHeading text-center">Differential Expression Analysis
+					<select ng-model="selectedWingy" class="graphHeading">
+						<option ng-repeat="type in possibleTypes">{{cuteString(type)}}</option>
+					</select>
+				</p>
 				<div id="containerWingGraph"></div>
 			</div>
 		</div>

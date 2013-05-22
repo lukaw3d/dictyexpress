@@ -1,5 +1,9 @@
 function WingGraph($scope, $http) {
 	$scope.selectedType="dd_pre_pre";
+	$scope.possibleTypes = null;
+	$http.get('api/allowedWingy').success(function(data) {
+		$scope.possibleTypes = data;
+	});
 	$scope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	var dataUrl;
 	var imgUrl;
@@ -42,7 +46,7 @@ function WingGraph($scope, $http) {
 				plotBackgroundImage: imgUrl
 			},
 			title: {
-				text: 'Differential Expression Analysis',
+				text: null,
 			},
 			xAxis: {
 				title: {text: 'log2'},
@@ -106,4 +110,16 @@ function WingGraph($scope, $http) {
 		});
 	};
 	$scope.reload();
+	
+	$scope.cuteString = function(str){
+		var strspl = str.split("_");
+		strspl[0] = strspl[0].toUpperCase();
+		if(strspl[1]=="pre"){
+			strspl[1]="prespore";
+			strspl[2]="prestalk";
+		}
+		if(!isNaN(parseInt(strspl[1]))) strspl[1] = parseInt(strspl[1])+"h";
+		if(!isNaN(parseInt(strspl[2]))) strspl[2] = parseInt(strspl[2])+"h";
+		return strspl[0]+" "+strspl[1]+"/"+strspl[2];
+	}
 }

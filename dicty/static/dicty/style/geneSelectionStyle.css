@@ -1,23 +1,29 @@
 
 textArea {
-	min-width: 280px;
+	min-width: 320px;
 	max-width: 95%;
 	margin-left: 10px;
 	max-height: 300px;
 }
 table {
 	font-family:arial;
-	border: 1px solid #ccc;
 	border-collapse: collapse;
 	margin: 10px 10px 15px;
 	font-size: 10pt;
 	text-align: left;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 6px;
+	 -moz-border-radius: 6px;
+		  border-radius: 6px;
+	-webkit-background-clip: padding-box;
+	 -moz-background-clip: padding;
+		  background-clip: padding-box;
 }
 table td, table th{
-	border: 2px solid #ccc;
-	border-collapse: collapse;
+
 }
-table thead tr th, table tfoot tr th {
+table thead tr th{
 	background-color: #cee;
 	font-size: 10pt;
 	text-transform: uppercase;
@@ -58,6 +64,9 @@ table tbody tr:hover td{
 	background-color: #fff;
 	z-index:999;
 	display:none;
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	 -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 #geneSelector:hover table{
 	display:block;

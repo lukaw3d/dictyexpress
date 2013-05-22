@@ -31,10 +31,12 @@ def api(request, sub):
     sleep(fakePing)
     if sub == "":
         return render(request, 'dicty/api.html', {})
-    if sub == "experiment": #/api/experiment
+
+    if sub == "experiment":  # /api/experiment
         return HttpResponse(json.dumps(wholeDict["experiment"], indent=4),
                             content_type="application/json")
-    if sub == "profile": #/api/profile?ddbs=,,,&species=
+
+    if sub == "profile":  # /api/profile?ddbs=,,,&species=
         selectedSpecies = request.GET.get("species")
         selectedDDBs = str(request.GET.get("ddbs")).split(",")
         subset = wholeDict.get("profile"+str(selectedSpecies))
@@ -47,10 +49,11 @@ def api(request, sub):
                                 content_type="application/json")
         else:
             return HttpResponse("Hi. Bad params", content_type="text/plain")
-    if sub == "allGenes": #/api/allGenes
+
+    if sub == "allGenes":  # /api/allGenes
         return HttpResponse(json.dumps(wholeDict["allGenes"], indent=4),
                             content_type="application/json")
-    if sub == "comparison": #/api/comparison?ddb=DDB_G0273069
+    if sub == "comparison":  # /api/comparison?ddb=DDB_G0273069
         selectedDDB = str(request.GET.get("ddb"))
         filtered = {exp["species"]: {
             "info": exp,
@@ -59,13 +62,31 @@ def api(request, sub):
         } for exp in wholeDict["experiment"]}
         return HttpResponse(json.dumps(filtered, indent=4),
                             content_type="application/json")
-    if sub == "wingy":
+
+    if sub == "allowedWingy":  # /api/allowedWingy
+        ret = []
+        pre = ["dd", "dp"]
+        ret.append("%s_pre_pre" % pre[0])
+        ret.append("%s_pre_pre" % pre[1])
+        for prefix in pre:
+            for one in range(0, 25, 4):
+                ret.append("%s_prespore_%02d" % (prefix, one))
+            for one in range(0, 25, 4):
+                ret.append("%s_prestalk_%02d" % (prefix, one))
+            for one in range(0, 25, 4):
+                for two in range(one+4, 25, 4):
+                    ret.append("%s_%02d_%02d" % (prefix, one, two))
+        return HttpResponse(json.dumps(ret, indent=4),
+                            content_type="application/json")
+
+    if sub == "wingy":  # /api/wingy?ddbs=,,,&type=
         temp = 'http://dictyexpress.biolab.si/script/get_volcano_new.py'
         add = '?pass1=rnaseq&user1=rnaseq&gene_gid_list=%s&org=%s'
         ddbs = [getDDB(sel) for sel in request.GET.get("ddbs").split(",")]
         params = (",".join(ddbs), request.GET.get("type"))
         f = urllib.urlopen(temp+add % params)
         return HttpResponse(f.read(), content_type="text/plain")
+
     raise Http404
     #return HttpResponse(json.dumps(wholeDict, indent=4))
 
