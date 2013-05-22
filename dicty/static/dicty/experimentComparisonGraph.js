@@ -98,9 +98,10 @@ function ComparisonGraph($scope, $http) {
 					
 						symbol: 'circle',
 						text: 'Extra button',
-						onclick: function() {
+						menuItems: [null]
+						/*onclick: function() {
 							alert('Extra'); 
-						}
+						}*/
 					}
 				}
 			},
@@ -140,7 +141,27 @@ function ComparisonGraph($scope, $http) {
 			},
 			// get data
 			series: dataForSeries
-		});
+//***************************************************************
+		},function(){
+        //console.dir(this);
+        // this item should be added only to  this one chart.
+		
+		var adr=document.URL;
+		var s=adr.search("genes=") + 6;
+		var e=adr.search("&oneGene");
+		var fir =adr.substring(s,e);
+		var spl = fir.split(" ");
+		for(var i=0; i<spl.length-1; i++){
+			this.options.exporting.buttons.customButton.menuItems.push({
+				text: spl[i],
+				onclick: function(){
+					
+					//
+				}
+			});
+		}
+    });
+//***************************************************************
 	};
 	
 	$scope.reload();
