@@ -60,6 +60,43 @@ function WingGraph($scope, $http) {
 				max:wingyData.maxy,
 				labels: {format: '{value}'}
 			},
+			exporting: {
+				enabled: true,
+
+				buttons: 			
+				{
+					contextButton:{
+						enabled: true,
+						text: 'Export',
+						menuItems: [{
+							text: 'Export to PNG',							
+							onclick: function() {
+								this.exportChart({
+									type: 'image/png'
+								});
+							}
+						}, {
+							text: 'Export to PDF',							
+							onclick: function() {
+								this.exportChart({
+									type: 'application/pdf'
+								});
+							},
+							separator: false
+						}, {
+							text:'null',
+							separator: true
+						},{
+							text: 'Print chart',							
+							onclick: function() {
+								this.print();
+							},
+							separator: false							
+						}]						
+					}
+
+				}
+			},
 			tooltip: {
 				pointFormat: '{point.x}, {point.y}'
 			},

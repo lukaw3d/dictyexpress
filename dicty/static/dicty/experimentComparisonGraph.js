@@ -58,6 +58,52 @@ function ComparisonGraph($scope, $http) {
 				}],
 				labels: {format: '{value}'}
 			},
+			exporting: {
+				enabled: true,
+
+				buttons: 			
+				{
+					contextButton:{
+						enabled: true,
+						text: 'Export',
+						menuItems: [{
+							text: 'Export to PNG',							
+							onclick: function() {
+								this.exportChart({
+									type: 'image/png'
+								});
+							}
+						}, {
+							text: 'Export to PDF',							
+							onclick: function() {
+								this.exportChart({
+									type: 'application/pdf'
+								});
+							},
+							separator: false
+						}, {
+							text:'null',
+							separator: true
+						},{
+							text: 'Print chart',							
+							onclick: function() {
+								this.print();
+							},
+							separator: false							
+						}]						
+					},
+
+					customButton:
+					{
+					
+						symbol: 'circle',
+						text: 'Extra button',
+						onclick: function() {
+							alert('Extra'); 
+						}
+					}
+				}
+			},
 			tooltip: {
 				shared: true,
 				crosshairs: true,
