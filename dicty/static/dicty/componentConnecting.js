@@ -55,7 +55,6 @@ $(function() {
 function refreshOneGene(oneGene, dontHash){
 	if(!dontHash) hashAdd("oneGene",oneGene);
 	angular.element('[ng-controller=ComparisonGraph]').scope().selectedToCompare = oneGene;
-	angular.element('[ng-controller=ComparisonGraph]').scope().reload();
 }
 function refreshSpecies(species, dontHash){
 	if(!dontHash) hashAdd("species",species);
@@ -79,7 +78,6 @@ function refreshGenes(genes, dontHash){
 function refreshTypeVs(typeVs, dontHash){
 	if(!dontHash) hashAdd("typeVs",typeVs);
 	angular.element('[ng-controller=WingGraph]').scope().possibleTypes = typeVs;
-	angular.element('[ng-controller=WingGraph]').scope().reload();
 }
 function globalRefresh(){
 	var oneGene = angular.element('[ng-controller=ProfileGraph]').scope().selectedGene;

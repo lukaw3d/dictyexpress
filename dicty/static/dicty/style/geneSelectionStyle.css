@@ -1,6 +1,6 @@
 
 textArea {
-	min-width: 320px;
+	min-width: 330px;
 	max-width: 95%;
 	margin-left: 10px;
 	max-height: 300px;
@@ -27,7 +27,8 @@ table thead tr th{
 	background-color: #cee;
 	font-size: 10pt;
 	text-transform: uppercase;
-	padding: 4px;
+	padding: 5px;
+	min-width: 100px;
 }
 
 table tbody td {

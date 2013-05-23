@@ -3,7 +3,6 @@ function ProfileGraph($scope, $http){
 	var profile = null;
 	var currentExperiment = null;
 	$scope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
-	$scope.selectedGene = $scope.selectedDDBs[0];
 	
 	$scope.reload = function(){
 		profile = null;
@@ -13,24 +12,13 @@ function ProfileGraph($scope, $http){
 			for(var i in data){
 				if(data[i]["species"]==$scope.specie) currentExperiment = data[i];
 			}
-			if($('#containerProfileGraph').highcharts()){
-				$('#containerProfileGraph').highcharts().setTitle(
-					{text: 'Expression Profile', x: -20},
-					{text: makeSubtitle(), x: -20}
-				);
-			}else{
-				$scope.refresh();
-			}
+			$scope.currentExperiment = currentExperiment;
 		});
 		$http.get('api/profile?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&species='+$scope.specie)).success(function(data){
 			profile = data;
 			$scope.refresh();
 		});
 	};
-	function makeSubtitle(){
-		if(currentExperiment) return currentExperiment.species+' / '+currentExperiment.strain+' / '+currentExperiment.growth;
-		else return " ";
-	}
 	$scope.refresh = function(){
 		var dataForSeries=[{name: " ",data: []}];
 		if(profile){
@@ -47,12 +35,8 @@ function ProfileGraph($scope, $http){
 			credits: {enabled:false},			
 			chart: {type: 'line'},
 			title: {
-				text: 'Expression Profile',
+				text: null,
 				x: -20 //center
-			},
-			subtitle: {
-				text: makeSubtitle(),
-				x: -20
 			},
 			xAxis: {
 				title: {text: 'time [hrs]'},
@@ -138,8 +122,7 @@ function ProfileGraph($scope, $http){
 					cursor: 'pointer',
 					events: {
 						click: function(event) {
-							$scope.selectedGene = $scope.selectedDDBs[this.index];
-							refreshOneGene($scope.selectedGene);
+							refreshOneGene(dataForSeries[this.index].name);
 						}
 					}
 				}

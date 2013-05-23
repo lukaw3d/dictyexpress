@@ -58,11 +58,14 @@
 				</div>
 			</div>
 			<div class="half" ng-controller="ProfileGraph">
+				<div class="graphHeading text-center padTop">Expression Profile</div>
+				<div class="graphSubHeading text-center padTop">{{currentExperiment.species+' / '+currentExperiment.strain+' / '+currentExperiment.growth}}</div>
 				<div id="containerProfileGraph"></div>
 			</div>
 			<div class="half" ng-controller="ComparisonGraph">
 				<div class="graphHeading text-center padTop">Experiment Comparison for gene
 					<select ng-model="selectedToCompare" ng-options="val as val for val in possibleSelections" ng-change="reload()" class="graphHeading">
+						<option value=""> -- Select a gene -- </option>
 					</select>
 				</div>
 				<div class="graphSubHeading text-center">{{names.join(" / ")}}</div>
@@ -71,6 +74,7 @@
 			<div class="half" ng-controller="WingGraph">
 				<div class="graphHeading text-center padTop">Differential Expression Analysis
 					<select ng-model="selectedType" ng-options="val as cuteString(val) for val in possibleTypes" ng-change="reload()" class="graphHeading">
+						<option value=""> -- Select a ratio -- </option>
 					</select>
 				</div>
 				<div id="containerWingGraph"></div>
