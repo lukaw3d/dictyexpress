@@ -1,15 +1,19 @@
-function DictyTable($scope, $http) {
-	$scope.experiment = [{}];
-	$scope.selectedSpecies = null;
+function DictyTable($scope, $http, $rootScope) {
+	$rootScope.experiment = [{}];
+	$rootScope.selectedSpecies = null;
 	$http.get('api/experiment').success(function(data) {
-		$scope.experiment = data;
-		if(! $scope.selectedSpecies)
-			$scope.selectedSpecies=$scope.experiment[0].species;
+		$rootScope.experiment = data;
+		if(! $rootScope.selectedSpecies)
+			$rootScope.selectedSpecies=$rootScope.experiment[0].species;
 		setTimeout($scope.reload,100);
 	});
 	
 	$scope.sortBy = 'strain';
 	$scope.reverseSort = false;
+	
+	$rootScope.$watch("selectedSpecies", function() {
+		$scope.reload();
+    });
 	
 	$scope.sortHeaders = ["species","strain","growth"];
 	
@@ -27,12 +31,10 @@ function DictyTable($scope, $http) {
 	};
 	$scope.reload = function(){
 		$('.expRow').removeAttr("selectedRow");
-		$('.specie'+$scope.escapeString($scope.selectedSpecies)).attr("selectedRow", "true");
+		$('.specie'+$scope.escapeString($rootScope.selectedSpecies)).attr("selectedRow", "true");
 	};
 	$scope.selectRow = function(experimentRow, event){
-		$scope.selectedSpecies = experimentRow.species;
-		$scope.reload();
-		refreshSpecies($scope.selectedSpecies);
+		$rootScope.selectedSpecies = experimentRow.species;
 	};
 	$scope.escapeString = function(str){
 		if(str) return str.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'X');
@@ -41,10 +43,10 @@ function DictyTable($scope, $http) {
 }
 
 
-function GeneSelector($scope, $http) {
-	$scope.allGenes = {"":""};
+function GeneSelector($scope, $http, $rootScope) {
+	$rootScope.allGenes = {"":""};
 	$http.get('api/allGenes').success(function(data) {
-		$scope.allGenes = data;
+		$rootScope.allGenes = data;
 	});
 	
 	$scope.sortHeaders = ["name","ddb","jgi_id"];
@@ -55,22 +57,22 @@ function GeneSelector($scope, $http) {
 		str = str.substring(0, str.lastIndexOf(" "));
 		var inputString = $.trim(str + " " + gene.name) + " ";
 		$('#geneTextInput').val(inputString);
-		$scope.selectedGenes = inputString;
+		$rootScope.selectedDDBs = inputString.split(" ").filter(function(e){return e;}); //clear emptys
 		globalRefresh();
 	};
 	
 	$scope.allGenesFiltered = function(geneinput){
 		var ret=[];
 		var cnt = 0;
-		for(i in $scope.allGenes){
-			var name = $scope.allGenes[i]["name"];
+		for(i in $rootScope.allGenes){
+			var name = $rootScope.allGenes[i]["name"];
 			var b = true;
 			if(geneinput){
 				var lastStr=geneinput.substring(geneinput.lastIndexOf(" ")+1);
 				b = name.lastIndexOf(lastStr, 0) == 0; //startsWith()
 			}
 			if(b){
-				ret.push($scope.allGenes[i]); 
+				ret.push($rootScope.allGenes[i]); 
 				cnt++;
 			}
 			if(cnt>20) break;

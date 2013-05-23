@@ -52,37 +52,41 @@ $(function() {
 	hashChange();
 });
 
+function otherScope(ctrl){
+	return angular.element('[ng-controller='+ctrl+']').scope();
+}
+
 function refreshOneGene(oneGene, dontHash){
 	if(!dontHash) hashAdd("oneGene",oneGene);
-	angular.element('[ng-controller=ComparisonGraph]').scope().selectedToCompare = oneGene;
+	otherScope('ComparisonGraph').selectedToCompare = oneGene;
 }
 function refreshSpecies(species, dontHash){
 	if(!dontHash) hashAdd("species",species);
-	angular.element('[ng-controller=DictyTable]').scope().selectedSpecies = species;
-	angular.element('[ng-controller=DictyTable]').scope().reload();
-	angular.element('[ng-controller=ProfileGraph]').scope().specie = species;
-	angular.element('[ng-controller=ProfileGraph]').scope().reload();
+	otherScope('DictyTable').selectedSpecies = species;
+	otherScope('DictyTable').reload();
+	otherScope('ProfileGraph').specie = species;
+	otherScope('ProfileGraph').reload();
 }
 function refreshGenes(genes, dontHash){
 	if(!dontHash) hashAdd("genes",genes);
 	if(genes){
 		genes = genes.split(" ").filter(function(e){return e;}); //clear emptys
-		angular.element('[ng-controller=ProfileGraph]').scope().selectedDDBs = genes;
-		angular.element('[ng-controller=ProfileGraph]').scope().reload();
-		angular.element('[ng-controller=WingGraph]').scope().selectedDDBs = genes;
-		angular.element('[ng-controller=WingGraph]').scope().reload();
-		angular.element('[ng-controller=ComparisonGraph]').scope().possibleSelections = genes;
-		angular.element('[ng-controller=ComparisonGraph]').scope().reload();
+		otherScope('ProfileGraph').selectedDDBs = genes;
+		otherScope('ProfileGraph').reload();
+		otherScope('WingGraph').selectedDDBs = genes;
+		otherScope('WingGraph').reload();
+		otherScope('ComparisonGraph').possibleSelections = genes;
+		otherScope('ComparisonGraph').reload();
 	}
 }
 function refreshTypeVs(typeVs, dontHash){
 	if(!dontHash) hashAdd("typeVs",typeVs);
-	angular.element('[ng-controller=WingGraph]').scope().possibleTypes = typeVs;
+	otherScope('WingGraph').possibleTypes = typeVs;
 }
 function globalRefresh(){
-	var oneGene = angular.element('[ng-controller=ProfileGraph]').scope().selectedGene;
-	var species = angular.element('[ng-controller=DictyTable]').scope().selectedSpecies;
-	var genes = angular.element('[ng-controller=GeneSelector]').scope().selectedGenes;
+	var oneGene = otherScope('ProfileGraph').selectedGene;
+	var species = otherScope('DictyTable').selectedSpecies;
+	var genes = otherScope('GeneSelector').selectedGenes;
 	refreshSpecies(species);
 	refreshGenes(genes);
 	refreshOneGene(oneGene);

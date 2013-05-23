@@ -1,16 +1,18 @@
-function WingGraph($scope, $http) {
+function WingGraph($scope, $http, $rootScope) {
 	$scope.selectedType="dd_pre_pre";
 	$scope.possibleTypes = null;
 	$http.get('api/allowedWingy').success(function(data) {
 		$scope.possibleTypes = data;
 	});
-	$scope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
+	$rootScope.$watch("selectedDDBs", function() {
+		$scope.reload();
+    });
 	var dataUrl;
 	var imgUrl;
 	var wingyData = {};
 	$scope.reload = function(){
 		wingyData = {};
-		dataUrl = 'api/wingy?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&type='+$scope.selectedType);
+		dataUrl = 'api/wingy?'+encodeURI('ddbs='+$rootScope.selectedDDBs.join(",")+'&type='+$scope.selectedType);
 		imgUrl = 'http://dictyexpress.biolab.si/script//volcano/'+$scope.selectedType+'.png';
 		$http.get(dataUrl).success(function(data) {
 			var lines = data.split(/\r?\n/).filter(function(e){return e;}); //clear emptys
@@ -102,14 +104,16 @@ function WingGraph($scope, $http) {
 				}
 			},
 			tooltip: {
-				pointFormat: '{point.x}, {point.y}'
+				valueDecimals: 2,
+				formatter: function() {
+					return '<span style="color:'+this.series.color+'">'+this.series.name+'</span>: <br>x: '+this.x.toFixed(3)+'<br>y: '+this.y.toFixed(3);
+				}
 			},
 			// get data
 			series: wingyData.points,
 			
 		});
 	};
-	$scope.reload();
 	
 	$scope.cuteString = function(str){
 		var strspl = str.split("_");

@@ -1,20 +1,27 @@
-function ProfileGraph($scope, $http){
-	$scope.specie = 'D. discoideum';
+function ProfileGraph($scope, $http, $rootScope){
+	var pExperiment = function(){return $rootScope.experiment;};
+	$rootScope.$watch("selectedDDBs", function() {
+		$scope.reload();
+    });
+	$rootScope.$watch("selectedSpecies", function() {
+		$scope.reload();
+    });
+	
 	var profile = null;
 	var currentExperiment = null;
-	$scope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
+	$rootScope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	
 	$scope.reload = function(){
 		profile = null;
 		currentExperiment = null;
 		$scope.refresh();
-		$http.get('api/experiment').success(function(data){
-			for(var i in data){
-				if(data[i]["species"]==$scope.specie) currentExperiment = data[i];
-			}
-			$scope.currentExperiment = currentExperiment;
-		});
-		$http.get('api/profile?'+encodeURI('ddbs='+$scope.selectedDDBs.join(",")+'&species='+$scope.specie)).success(function(data){
+		
+		for(var i in pExperiment()){
+			if(pExperiment()[i]["species"]==$rootScope.selectedSpecies) currentExperiment = pExperiment()[i];
+		}
+		$scope.currentExperiment = currentExperiment;
+		
+		$http.get('api/profile?'+encodeURI('ddbs='+$rootScope.selectedDDBs.join(",")+'&species='+$rootScope.selectedSpecies)).success(function(data){
 			profile = data;
 			$scope.refresh();
 		});
@@ -102,7 +109,7 @@ function ProfileGraph($scope, $http){
 				formatter: function() {
 					var str = 'Time: <b>'+ this.x +'h';
 					$.each(this.points, function(i, point) {
-						str += '<br><span style="color:'+point.series.color+'; font-size:80%;">'+ point.series.name +': '+ point.y +'</span>';
+						if(point.y) str += '<br><span style="color:'+point.series.color+';">'+ point.series.name +': '+ point.y.toFixed(3) +'</span>';
 					});
 					return str;
 				}
@@ -122,7 +129,8 @@ function ProfileGraph($scope, $http){
 					cursor: 'pointer',
 					events: {
 						click: function(event) {
-							refreshOneGene(dataForSeries[this.index].name);
+							angular.element('[ng-controller=ComparisonGraph]').scope().selectedOneGene = dataForSeries[this.index].name;
+							angular.element('[ng-controller=ComparisonGraph]').scope().$digest();
 						}
 					}
 				}
@@ -132,6 +140,4 @@ function ProfileGraph($scope, $http){
 	
 		});
 	};
-	
-	$scope.reload();
 }

@@ -1,12 +1,15 @@
-function ComparisonGraph($scope, $http) {
-	$scope.selectedToCompare = "DDB_G0279387";
-	$scope.possibleSelections= ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
+function ComparisonGraph($scope, $http, $rootScope) {
+	$scope.selectedOneGene = "DDB_G0279387";
 	var comparison = null;
+	
+	$scope.$watch("selectedOneGene", function() {
+		$scope.reload();
+    });
 	
 	$scope.reload = function(){
 		comparison = null;
 		$scope.refresh();
-		$http.get('api/comparison?ddb='+$scope.selectedToCompare).success(function(data) {
+		$http.get('api/comparison?ddb='+$scope.selectedOneGene).success(function(data) {
 			comparison = data;
 			$scope.refresh();
 		});
@@ -90,6 +93,7 @@ function ComparisonGraph($scope, $http) {
 			},
 			tooltip: {
 				shared: true,
+				valueDecimals: 2,
 				crosshairs: true,
 				positioner: function (boxWidth, boxHeight, point) {
 					return {x:point.plotX, y:0};
@@ -97,7 +101,7 @@ function ComparisonGraph($scope, $http) {
 				formatter: function() {
 					var str = 'Time: <b>'+ this.x +'h';
 					$.each(this.points, function(i, point) {
-						str += '<br><span style="color:'+point.series.color+'">'+ point.series.name +': '+ point.y +'</span>';
+						str += '<br><span style="color:'+point.series.color+'">'+ point.series.name +': '+ point.y.toFixed(3) +'</span>';
 					});
 					return str;
 				}
@@ -126,6 +130,4 @@ function ComparisonGraph($scope, $http) {
 			series: dataForSeries
 		});
 	};
-	
-	$scope.reload();
 }
