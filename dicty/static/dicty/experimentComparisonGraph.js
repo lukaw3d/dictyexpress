@@ -93,7 +93,6 @@ function ComparisonGraph($scope, $http, $rootScope) {
 			},
 			tooltip: {
 				shared: true,
-				valueDecimals: 2,
 				crosshairs: true,
 				positioner: function (boxWidth, boxHeight, point) {
 					return {x:point.plotX, y:0};
@@ -121,7 +120,8 @@ function ComparisonGraph($scope, $http, $rootScope) {
 					cursor: 'pointer',
 					events: {
 						click: function(event) {
-							refreshSpecies(this.name);
+							$rootScope.selectedSpecies = this.name;
+							$rootScope.$digest();
 						}
 					}
 				}

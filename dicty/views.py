@@ -11,7 +11,7 @@ import os
 dictyPath = os.path.abspath(os.path.dirname(__file__))
 dataPath = os.path.join(dictyPath, "../data")
 picklePath = os.path.join(dataPath, 'Pickles')
-fakePing = 1
+fakePing = 0.3
 
 
 def index(request):
