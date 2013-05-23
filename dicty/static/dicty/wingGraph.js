@@ -1,5 +1,6 @@
 function WingGraph($scope, $http, $rootScope) {
-	$scope.selectedType="dd_pre_pre";
+	$scope.root = $rootScope;
+	if(!$rootScope.selectedType) $rootScope.selectedType="dd_pre_pre";
 	$scope.possibleTypes = null;
 	$http.get('api/allowedWingy').success(function(data) {
 		$scope.possibleTypes = data;
@@ -12,8 +13,8 @@ function WingGraph($scope, $http, $rootScope) {
 	var wingyData = {};
 	$scope.reload = function(){
 		wingyData = {};
-		dataUrl = 'api/wingy?'+encodeURI('ddbs='+$rootScope.selectedDDBs.join(",")+'&type='+$scope.selectedType);
-		imgUrl = 'http://dictyexpress.biolab.si/script//volcano/'+$scope.selectedType+'.png';
+		dataUrl = 'api/wingy?'+encodeURI('ddbs='+$rootScope.selectedDDBs.join(",")+'&type='+$rootScope.selectedType);
+		imgUrl = 'http://dictyexpress.biolab.si/script//volcano/'+$rootScope.selectedType+'.png';
 		$http.get(dataUrl).success(function(data) {
 			var lines = data.split(/\r?\n/).filter(function(e){return e;}); //clear emptys
 			var firsts = lines.splice(0,1);

@@ -6,10 +6,15 @@ function ProfileGraph($scope, $http, $rootScope){
 	$rootScope.$watch("selectedSpecies", function() {
 		$scope.reload();
     });
-	
+	$rootScope.$watch("experiment", function() {
+		for(var i in pExperiment()){
+			if(pExperiment()[i]["species"]==$rootScope.selectedSpecies) currentExperiment = pExperiment()[i];
+		}
+		$scope.currentExperiment = currentExperiment;
+    });
 	var profile = null;
 	var currentExperiment = null;
-	$rootScope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
+	if(!$rootScope.selectedDDBs) $rootScope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	
 	$scope.reload = function(){
 		profile = null;
@@ -129,8 +134,8 @@ function ProfileGraph($scope, $http, $rootScope){
 					cursor: 'pointer',
 					events: {
 						click: function(event) {
-							angular.element('[ng-controller=ComparisonGraph]').scope().selectedOneGene = dataForSeries[this.index].name;
-							angular.element('[ng-controller=ComparisonGraph]').scope().$digest();
+							$rootScope.selectedOneGene = dataForSeries[this.index].name;
+							$rootScope.$digest();
 						}
 					}
 				}

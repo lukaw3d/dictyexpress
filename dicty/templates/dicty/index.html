@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static "dicty/style/geneSelectionStyle.css" %}" />
 		<script src="{% static "dicty/libs/jquery-1.9.1.min.js" %}"></script>
 		<script src="{% static "dicty/libs/angular.min.js" %}"></script>
-
+		<script src="{% static "dicty/componentConnecting.js" %}"></script>
 		
 		<script src="{% static "dicty/libs/highcharts.js" %}" ></script>
 		<script src="{% static "dicty/libs/exporting.js" %}"></script>
@@ -18,7 +18,7 @@
 		<script src="{% static "dicty/expressionProfileGraph.js" %}"></script>
 		<script src="{% static "dicty/wingGraph.js" %}"></script>
 	</head>
-	<body>
+	<body ng-controller="ComponentConnecting">
 		{% verbatim %}
 		<div>
 			<div>
@@ -64,7 +64,7 @@
 			</div>
 			<div class="half" ng-controller="ComparisonGraph">
 				<div class="graphHeading text-center padTop">Experiment Comparison for gene
-					<select ng-model="selectedOneGene" ng-options="val for val in selectedDDBs" ng-change="reload()" class="graphHeading">
+					<select ng-model="root.selectedOneGene" ng-options="val for val in selectedDDBs" ng-change="reload()" class="graphHeading">
 						<option value=""> -- Select a gene -- </option>
 					</select>
 				</div>
@@ -73,7 +73,7 @@
 			</div>
 			<div class="half" ng-controller="WingGraph">
 				<div class="graphHeading text-center padTop">Differential Expression Analysis
-					<select ng-model="selectedType" ng-options="val as cuteString(val) for val in possibleTypes" ng-change="reload()" class="graphHeading">
+					<select ng-model="root.selectedType" ng-options="val as cuteString(val) for val in possibleTypes" ng-change="reload()" class="graphHeading">
 						<option value=""> -- Select a ratio -- </option>
 					</select>
 				</div>

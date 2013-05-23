@@ -1,15 +1,16 @@
 function ComparisonGraph($scope, $http, $rootScope) {
-	$scope.selectedOneGene = "DDB_G0279387";
+	$scope.root = $rootScope;
+	if(!$rootScope.selectedOneGene) $rootScope.selectedOneGene = "DDB_G0279387";
 	var comparison = null;
 	
-	$scope.$watch("selectedOneGene", function() {
+	$rootScope.$watch("selectedOneGene", function() {
 		$scope.reload();
     });
 	
 	$scope.reload = function(){
 		comparison = null;
 		$scope.refresh();
-		$http.get('api/comparison?ddb='+$scope.selectedOneGene).success(function(data) {
+		$http.get('api/comparison?ddb='+$rootScope.selectedOneGene).success(function(data) {
 			comparison = data;
 			$scope.refresh();
 		});

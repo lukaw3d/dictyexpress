@@ -1,6 +1,6 @@
 function DictyTable($scope, $http, $rootScope) {
-	$rootScope.experiment = [{}];
-	$rootScope.selectedSpecies = null;
+	if(!$rootScope.experiment) $rootScope.experiment = [{}];
+	if(!$rootScope.selectedSpecies) $rootScope.selectedSpecies = null;
 	$http.get('api/experiment').success(function(data) {
 		$rootScope.experiment = data;
 		if(! $rootScope.selectedSpecies)
@@ -44,9 +44,10 @@ function DictyTable($scope, $http, $rootScope) {
 
 
 function GeneSelector($scope, $http, $rootScope) {
-	$rootScope.allGenes = {"":""};
+	$scope.allGenes = {"":""};
+	if($rootScope.selectedDDBs) $('#geneTextInput').val($rootScope.selectedDDBs.join(" ")+" ");
 	$http.get('api/allGenes').success(function(data) {
-		$rootScope.allGenes = data;
+		$scope.allGenes = data;
 	});
 	
 	$scope.sortHeaders = ["name","ddb","jgi_id"];
@@ -58,21 +59,20 @@ function GeneSelector($scope, $http, $rootScope) {
 		var inputString = $.trim(str + " " + gene.name) + " ";
 		$('#geneTextInput').val(inputString);
 		$rootScope.selectedDDBs = inputString.split(" ").filter(function(e){return e;}); //clear emptys
-		globalRefresh();
 	};
 	
 	$scope.allGenesFiltered = function(geneinput){
 		var ret=[];
 		var cnt = 0;
-		for(i in $rootScope.allGenes){
-			var name = $rootScope.allGenes[i]["name"];
+		for(i in $scope.allGenes){
+			var name = $scope.allGenes[i]["name"];
 			var b = true;
 			if(geneinput){
 				var lastStr=geneinput.substring(geneinput.lastIndexOf(" ")+1);
 				b = name.lastIndexOf(lastStr, 0) == 0; //startsWith()
 			}
 			if(b){
-				ret.push($rootScope.allGenes[i]); 
+				ret.push($scope.allGenes[i]); 
 				cnt++;
 			}
 			if(cnt>20) break;
