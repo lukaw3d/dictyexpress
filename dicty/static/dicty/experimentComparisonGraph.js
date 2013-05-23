@@ -5,7 +5,7 @@ function ComparisonGraph($scope, $http, $rootScope) {
 	
 	$rootScope.$watch("selectedOneGene", function() {
 		$scope.reload();
-    });
+    }, true);
 	
 	$scope.reload = function(){
 		comparison = null;

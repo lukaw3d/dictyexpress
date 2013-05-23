@@ -7,7 +7,7 @@ function WingGraph($scope, $http, $rootScope) {
 	});
 	$rootScope.$watch("selectedDDBs", function() {
 		$scope.reload();
-    });
+    }, true);
 	var dataUrl;
 	var imgUrl;
 	var wingyData = {};

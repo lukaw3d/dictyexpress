@@ -6,10 +6,10 @@ function ComponentConnecting($scope, $http, $rootScope) {
 	}
 	hashChange();
 	
-	$rootScope.$watch("selectedSpecies", out);
-	$rootScope.$watch("selectedDDBs", out);
-	$rootScope.$watch("selectedOneGene", out);
-	$rootScope.$watch("selectedType", out);
+	$rootScope.$watch("selectedSpecies", out, true);
+	$rootScope.$watch("selectedDDBs", out, true);
+	$rootScope.$watch("selectedOneGene", out, true);
+	$rootScope.$watch("selectedType", out, true);
 	function out(){
 		if(false){
 			console.log($rootScope.selectedDDBs);

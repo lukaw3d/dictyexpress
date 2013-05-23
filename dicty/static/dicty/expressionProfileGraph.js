@@ -2,25 +2,21 @@ function ProfileGraph($scope, $http, $rootScope){
 	var pExperiment = function(){return $rootScope.experiment;};
 	$rootScope.$watch("selectedDDBs", function() {
 		$scope.reload();
-    });
+    }, true);
 	$rootScope.$watch("selectedSpecies", function() {
 		$scope.reload();
-    });
+    }, true);
 	$rootScope.$watch("experiment", function() {
 		for(var i in pExperiment()){
 			if(pExperiment()[i]["species"]==$rootScope.selectedSpecies) currentExperiment = pExperiment()[i];
 		}
 		$scope.currentExperiment = currentExperiment;
-    });
+    }, true);
 	var profile = null;
 	var currentExperiment = null;
 	if(!$rootScope.selectedDDBs) $rootScope.selectedDDBs = ["DDB_G0273069","DDB_G0279387","DDB_G0284861","DDB_G0285597","DDB_G0289025"];
 	
 	$scope.reload = function(){
-		profile = null;
-		currentExperiment = null;
-		$scope.refresh();
-		
 		for(var i in pExperiment()){
 			if(pExperiment()[i]["species"]==$rootScope.selectedSpecies) currentExperiment = pExperiment()[i];
 		}
